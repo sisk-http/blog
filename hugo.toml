@@ -1,4 +1,4 @@
-baseURL = 'https://base.sisk-framework.org/'
+baseURL = 'https://blog.sisk-framework.org/'
 languageCode = 'en-us'
 title = 'Today in Sisk'
 theme = 'mini'
