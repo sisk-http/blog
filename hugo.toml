@@ -6,7 +6,6 @@ publishDir = 'docs'
 
 defaultContentLanguage = "en"
 
-# Site parameters
 [params]
 author = "CypherPotato"
 bio = "Talking news, tips and everything else about the Sisk Framework for .NET"
