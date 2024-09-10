@@ -1,0 +1,20 @@
+body main #list-page {
+    section {
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+
+        .date {
+            font-size: 1rem;
+            opacity: .85;
+            padding: 15px 0;
+        }
+
+        + section {
+            margin-top: 56px;
+        }
+    }
+}

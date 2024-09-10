@@ -1,0 +1,14 @@
+baseURL = 'https://base.sisk-framework.org/'
+languageCode = 'en-us'
+title = 'Today in Sisk'
+theme = 'mini'
+
+defaultContentLanguage = "en"
+
+# Site parameters
+[params]
+author = "CypherPotato"
+bio = "Talking news, tips and everything else about the Sisk Framework for .NET"
+description = "Talking news, tips and everything else about the Sisk Framework for .NET"
+# hiddenPostSummaryInHomePage = true
+copyright = "Project Principium"

@@ -1,0 +1,29 @@
++++
+title = 'Hello, world!'
+date = 2024-09-09T22:34:40-03:00
+draft = false
++++
+
+Hello.
+
+Welcome to the Sisk blog. Stay tuned for upcoming posts with tips, information, and ways to accomplish things with the Sisk Framework. This blog will always be written by the original maintainer of Sisk, Gabriel Scatolin (aka. [CypherPotato](https://github.com/CypherPotato)). It may be common for me to express a bit of my opinion on code, concepts, and perhaps other insights about programming in general, but I will always try to focus on Sisk.
+
+First of all, I would like to thank everyone who is commenting, writing, and contributing to Sisk. Sisk emerged as an open-source project from the very beginning, aiming to be simple, heavily inspired by the simplicity of Express and the robustness of ASP.NET. As you may have read on the official website, it arose from the need to be a [framework](https://docs.sisk-framework.org/#what-is-sisk) agnostic to frameworks. Its goal is to be flexible and adaptable, making architecture a detail you decide in your project, not your HTTP server.
+
+I even regret choosing the name "Framework" for Sisk, as I now see it more as a library than a complete framework. A framework should not only deliver code but also best practices and methods, and Sisk is, once again, agnostic in this regard. If you write bad code, your service will be bad, and Sisk will also serve bad code.
+
+It’s a less bureaucratic and less regulated scenario, but it still requires the responsibility of the code architect to know what they are doing. Sisk is about having the control to decide the path to take in your project.
+
+## Trying to Overcome Obstacles
+
+An HTTP server should be the least concern for a project, regardless of the type of project. Moreover, it is essential that an HTTP server has the smallest memory and processing footprint possible in this service. All processing, consumption, and storage should be the responsibility of the application layer, never the server.
+
+Sisk was created with micro-optimization in mind: avoiding unnecessary memory allocations, applying *unsafe* usage where necessary (and makes sense), and optimizing data delivery between the client and the server.
+
+In addition to this factor, Sisk has no dependencies on any library. It is Sisk, and only Sisk; there is nothing else to install on your machine. Not even the ASP.NET SDK is necessary. Download and install [.NET](https://dotnet.microsoft.com/), add Sisk to your project, and you already have the complete infrastructure to serve a native web application.
+
+## Looking forward
+
+I intend to maintain this concept whenever possible and live for the coming years of Sisk. Its development is funded by commercial projects I work on that use Sisk as the main service mechanism. I hope to continue taking care of it in the short, medium, and long term.
+
+Thank you for using Sisk.

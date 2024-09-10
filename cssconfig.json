@@ -1,0 +1,7 @@
+{
+    "inputDirectories": [
+        "./style"
+    ],
+    "outputFile": "static/css/style.css",
+    "filenametag": "Relative"
+}

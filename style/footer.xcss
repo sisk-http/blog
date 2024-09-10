@@ -1,0 +1,9 @@
+body footer {
+    max-width: 900px;
+    margin-inline: auto;
+    text-align: center;
+    opacity: .7;
+    margin-top: 70px;
+    font-size: .9rem;
+    padding: 50px 0;
+}
