@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>HTTPS is coming, natively, to Sisk | Today in Sisk</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="That&rsquo;s exactly it. I am working on my own implementation of an HTTP/1.1 serializer with HTTPS support for Sisk.
+Recently, I received new personnel to join the team where I work. This new team took on a project that is running with Sisk alongside me. It is a large, high-complexity project, and I was proud to present Sisk.
+While showing them the project, I had to teach them how to get it working. It wasn&rsquo;t like a conventional project; Sisk required a much larger, tedious, and discouraging initial setup. The reason for this was SSL. Our project depended on cookie-based authentication across domains, and these were domains mapped to the computer&rsquo;s localhost (the so-called hosts file). This setup involved:">
+<meta name="generator" content="Hugo 0.134.1">
+
+
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>Home</a>
+	
+	<a href="/posts">Archive</a>
+    <a target="_blank" href="https://docs.sisk-framework.org/">Get started</a>
+	<a href="/about">About</a>
+
+	
+
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+
+    <img class="post-img" src="/pimg/1726009098_2734_90024.png" alt="HTTPS is coming, natively, to Sisk" />
+
+    <h1 class="title">HTTPS is coming, natively, to Sisk</h1>
+
+    <div class="tip">
+        <time datetime="2024-09-10 20:33:48 -0300 -03">Sep 10, 2024</time>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            652 words
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            4 minute read
+        </span>
+        
+        <span class="split">
+            &bullet;
+        </span>
+        
+        <span>HTTPS</span>
+        
+        
+    </div>
+
+    
+
+    <div class="content">
+        <p>That&rsquo;s exactly it. I am working on my own implementation of an HTTP/1.1 serializer with HTTPS support for Sisk.</p>
+<p>Recently, I received new personnel to join the team where I work. This new team took on a project that is running with Sisk alongside me. It is a large, high-complexity project, and I was proud to present Sisk.</p>
+<p>While showing them the project, I had to teach them how to get it working. It wasn&rsquo;t like a conventional project; Sisk required a much larger, tedious, and discouraging initial setup. The reason for this was SSL. Our project depended on cookie-based authentication across domains, and these were domains mapped to the computer&rsquo;s localhost (the so-called <code>hosts</code> file). This setup involved:</p>
+<ul>
+<li>issuing a self-signed certificate, which wasn&rsquo;t so simple. It required OpenSSL or another tool. Fortunately, I knew about <a href="https://github.com/minio/certgen" target="_blank" rel="noopener">certgen</a>, which still serves me well for this purpose.</li>
+<li>installing IIS. I was counting on the team using Windows for this task, and they were, to my luck. IIS is the only native way to have SSL on Sisk, and it only works on Windows. If you use anything other than Windows, you won&rsquo;t be able to get Sisk to listen with SSL.</li>
+<li>configuring IIS. This was still a tedious job.</li>
+<li>configuring namespaces in Windows. Since Sisk works on top of <code>HttpListener</code>, Windows has to grant certain permissions for you to listen anywhere other than <code>localhost</code>. I talked about this little tutorial <a href="https://docs.sisk-framework.org/docs/registering-namespace" target="_blank" rel="noopener">here</a>.</li>
+<li>editing the hosts file.</li>
+<li>adding ports in the Sisk configuration file.</li>
+<li>restarting the computer.</li>
+</ul>
+<p>This entire process was only once, but it was a job that took a few hours, some unnecessary questions, and a few hiccups. It was definitely a time obstacle, and even though everything was working in the end, I wasn&rsquo;t happy. I needed to change that.</p>
+<h2 id="the-options-i-had">The options I had <a href="#the-options-i-had" class="anchor">🔗</a></h2><p>Sisk can run on SSL through a proxy. That&rsquo;s exactly what I built. But not as an additional application, but as just a dependency for Sisk itself, which is capable of listening and writing HTTP/1.1 messages with SSL.</p>
+<p>All you need to do to have HTTPS with Sisk, listening on different hosts, is:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#00f">using</span> Sisk.Core.Http;
+</span></span><span style="display:flex;"><span><span style="color:#00f">using</span> Sisk.Ssl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">static</span> <span style="color:#00f">async</span> Task Main(<span style="color:#2b91af">string</span>[] args)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">using</span> var app = HttpServer.CreateBuilder()
+</span></span><span style="display:flex;"><span>        .UseSsl(sslListeningPort: 5555) <span style="color:#008000">// &lt;-- magic happens here</span>
+</span></span><span style="display:flex;"><span>        .Build();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    app.Router.MapGet(<span style="color:#a31515">&#34;/&#34;</span>, r =&gt;
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">return</span> <span style="color:#00f">new</span> HttpResponse(<span style="color:#a31515">&#34;Hello from HTTPS!&#34;</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">await</span> app.StartAsync();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And a message will be displayed on your screen at the first startup of the program:</p>
+<p><p class="markdown-image">
+  <img src="/scr/sslnotf.png" alt="HTTPS is coming, natively, to Sisk"  />
+</p></p>
+<p>Congratulations, your application with SSL is ready to be used.</p>
+<h2 id="inspiration">Inspiration <a href="#inspiration" class="anchor">🔗</a></h2><p>In addition to all the reasons I mentioned above, the inspiration is to simplify the initial setup of having an application with Sisk that listens on HTTPS with just one line of code. Soon, more details with the <a href="https://docs.sisk-framework.org/docs/extensions/ssl-proxy" target="_blank" rel="noopener">SslProxy documentation</a> will be available.</p>
+<p>This project is extremely <strong>experimental</strong>. Building an HTTPS listener from scratch is not so simple. Sisk took a long time to become minimally stable for production. I don&rsquo;t think it will be different with SslProxy. Even after these tests, it is important to note that this add-on for Sisk is under development, may have bugs, and was made to facilitate development.</p>
+<p>Do not use <strong>SslProxy</strong> for production. I won&rsquo;t stop you, but I won&rsquo;t guarantee that everything will work correctly. It is still better to configure Apache, Nginx, or Cloudflare for your application to be served securely over the internet. I still emphasize that Sisk was designed to work through a <a href="https://docs.sisk-framework.org/docs/deploying#proxying-your-application" target="_blank" rel="noopener">proxy in production</a>.</p>
+<h2 id="next-steps">Next steps <a href="#next-steps" class="anchor">🔗</a></h2><p>The next steps for SslProxy are testing, testing, and testing. Almost everything is working, from websockets, SSE, chunked responses, and the primitive HTTP as well. I like to say it is &ldquo;almost ready&rdquo; because I know there will still be bugs.</p>
+<p>And I will need you to report these bugs so I can work on fixing them.</p>
+<p>You can read more about the Sisk.SslProxy in:</p>
+<ul>
+<li><a href="https://github.com/sisk-http/core/tree/main/extensions/Sisk.SslProxy" target="_blank" rel="noopener">GitHub</a></li>
+<li><a href="https://www.nuget.org/packages/Sisk.SslProxy" target="_blank" rel="noopener">NuGet</a></li>
+<li><a href="https://docs.sisk-framework.org/docs/extensions/ssl-proxy" target="_blank" rel="noopener">Documentation</a></li>
+</ul>
+<p>Thank you for using Sisk.</p>
+
+    </div>
+
+    
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        Project Principium
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-mini'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>

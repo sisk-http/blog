@@ -2,7 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.sisk-framework.org/tags/https/</loc>
+    <lastmod>2024-09-10T20:33:48-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.sisk-framework.org/posts/2024-09-10-ssliscoming/</loc>
+    <lastmod>2024-09-10T20:33:48-03:00</lastmod>
+  </url><url>
     <loc>https://blog.sisk-framework.org/posts/</loc>
+    <lastmod>2024-09-10T20:33:48-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.sisk-framework.org/tags/</loc>
     <lastmod>2024-09-10T20:33:48-03:00</lastmod>
   </url><url>
     <loc>https://blog.sisk-framework.org/</loc>
@@ -12,9 +21,6 @@
     <lastmod>2024-09-09T22:34:40-03:00</lastmod>
   </url><url>
     <loc>https://blog.sisk-framework.org/tags/sisk/</loc>
-    <lastmod>2024-09-09T22:34:40-03:00</lastmod>
-  </url><url>
-    <loc>https://blog.sisk-framework.org/tags/</loc>
     <lastmod>2024-09-09T22:34:40-03:00</lastmod>
   </url><url>
     <loc>https://blog.sisk-framework.org/about/</loc>

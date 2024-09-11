@@ -1,7 +1,7 @@
 +++
 title = 'HTTPS is coming, natively, to Sisk'
 date = 2024-09-10T20:33:48-03:00
-draft = true
+draft = false
 
 [params]
 tags = ['HTTPS']

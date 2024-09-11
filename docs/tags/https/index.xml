@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Today in Sisk</title>
-    <link>https://blog.sisk-framework.org/</link>
-    <description>Recent content on Today in Sisk</description>
+    <title>HTTPS on Today in Sisk</title>
+    <link>https://blog.sisk-framework.org/tags/https/</link>
+    <description>Recent content in HTTPS on Today in Sisk</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 10 Sep 2024 20:33:48 -0300</lastBuildDate>
-    <atom:link href="https://blog.sisk-framework.org/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.sisk-framework.org/tags/https/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTTPS is coming, natively, to Sisk</title>
       <link>https://blog.sisk-framework.org/posts/2024-09-10-ssliscoming/</link>
       <pubDate>Tue, 10 Sep 2024 20:33:48 -0300</pubDate>
       <guid>https://blog.sisk-framework.org/posts/2024-09-10-ssliscoming/</guid>
       <description>&lt;p&gt;That&amp;rsquo;s exactly it. I am working on my own implementation of an HTTP/1.1 serializer with HTTPS support for Sisk.&lt;/p&gt;&#xA;&lt;p&gt;Recently, I received new personnel to join the team where I work. This new team took on a project that is running with Sisk alongside me. It is a large, high-complexity project, and I was proud to present Sisk.&lt;/p&gt;&#xA;&lt;p&gt;While showing them the project, I had to teach them how to get it working. It wasn&amp;rsquo;t like a conventional project; Sisk required a much larger, tedious, and discouraging initial setup. The reason for this was SSL. Our project depended on cookie-based authentication across domains, and these were domains mapped to the computer&amp;rsquo;s localhost (the so-called &lt;code&gt;hosts&lt;/code&gt; file). This setup involved:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Hello, world!</title>
-      <link>https://blog.sisk-framework.org/posts/2024-09-09-hello/</link>
-      <pubDate>Mon, 09 Sep 2024 22:34:40 -0300</pubDate>
-      <guid>https://blog.sisk-framework.org/posts/2024-09-09-hello/</guid>
-      <description>&lt;p&gt;Hello.&lt;/p&gt;&#xA;&lt;p&gt;Welcome to the Sisk blog. Stay tuned for upcoming posts with tips, information, and ways to accomplish things with the Sisk Framework. This blog will always be written by the original maintainer of Sisk, Gabriel Scatolin (aka. &lt;a href=&#34;https://github.com/CypherPotato&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CypherPotato&lt;/a&gt;). It may be common for me to express a bit of my opinion on code, concepts, and perhaps other insights about programming in general, but I will always try to focus on Sisk.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
