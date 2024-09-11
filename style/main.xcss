@@ -1,48 +1,28 @@
 body main {
-    max-width: 900px;
+    max-width: --container-size;
     margin-inline: auto;
-
+    
     header.profile {
+        margin-bottom: 70px;
 
         h1 {
             font-weight: 300;
-            font-size: 2.7rem;
-            margin-bottom: 0;
+            font-size: 2.3rem;
+            margin-block: 0;
         }
 
         h2 {
             font-weight: 400;
             margin-top: 10px;
-            font-size: 1.1rem;
+            font-size: .9rem;
             opacity: .7;
         }
 
-        @media (min-width: 701px) {
-            position: relative;
-            margin-block: 30px 80px;
+        text-align: center;
 
-            img {
-                position: absolute;
-                top: 50%;
-                left: 0;
-                width: 85px;
-                height: auto;
-                translate: 0 -50%;
-            }
-
-            h1,
-            h2 {
-                padding-left: 110px;
-            }
-        }
-
-        @media (max-width: 700px) {
-            text-align: center;
-
-            img {
-                width: 80px;
-                height: 80px;
-            }
+        img {
+            width: 80px;
+            height: 80px;
         }
     }
 

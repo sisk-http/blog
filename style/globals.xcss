@@ -2,7 +2,7 @@
     --primary-color: rgb(7, 45, 172);
     --font-family: "Inter", sans-serif;
     --font-size: 16px;
-    --container-size: 900px;
+    --container-size: 950px;
 }
 
 html,

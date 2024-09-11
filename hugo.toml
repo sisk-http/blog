@@ -12,3 +12,7 @@ bio = "Talking news, tips and everything else about the Sisk Framework for .NET"
 description = "Talking news, tips and everything else about the Sisk Framework for .NET"
 # hiddenPostSummaryInHomePage = true
 copyright = "Project Principium"
+
+[markup]
+  [markup.highlight]
+    style = 'vs'

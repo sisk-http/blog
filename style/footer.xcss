@@ -1,5 +1,5 @@
 body footer {
-    max-width: 900px;
+    max-width: --container-size;
     margin-inline: auto;
     text-align: center;
     opacity: .7;

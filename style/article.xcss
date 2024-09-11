@@ -1,4 +1,13 @@
 body main #single {
+
+    .post-img {
+        width: 100%;
+        display: block;
+        border-radius: 10px;
+        height: 350px;
+        object-fit: cover;
+    }
+
     h1.title {
         font-size: 3.25rem;
         font-weight: 300;
@@ -36,6 +45,12 @@ body main #single {
 
         p + p {
             margin-top: 1.5em;
+        }
+
+        img {
+            display: block;
+            margin-inline: auto;
+            max-width: 100%;
         }
     }
 }

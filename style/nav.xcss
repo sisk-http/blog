@@ -1,6 +1,6 @@
 body nav {
     display: flex;
-    max-width: 900px;
+    max-width: --container-size;
     margin-inline: auto;
     padding-block: 30px;
     justify-content: flex-end;
@@ -46,7 +46,7 @@ body nav {
             margin-right: 6px;
             font-size: 18px;
         }
-        
+
         @media (max-width: 700px) {
             padding: 12px 10px;
             width: 100%;
