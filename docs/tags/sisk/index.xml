@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sisk on Today in Sisk</title>
+    <link>https://blog.sisk-framework.org/tags/sisk/</link>
+    <description>Recent content in Sisk on Today in Sisk</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Sep 2024 22:34:40 -0300</lastBuildDate>
+    <atom:link href="https://blog.sisk-framework.org/tags/sisk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello, world!</title>
+      <link>https://blog.sisk-framework.org/posts/2024-09-09-hello/</link>
+      <pubDate>Mon, 09 Sep 2024 22:34:40 -0300</pubDate>
+      <guid>https://blog.sisk-framework.org/posts/2024-09-09-hello/</guid>
+      <description>&lt;p&gt;Hello.&lt;/p&gt;&#xA;&lt;p&gt;Welcome to the Sisk blog. Stay tuned for upcoming posts with tips, information, and ways to accomplish things with the Sisk Framework. This blog will always be written by the original maintainer of Sisk, Gabriel Scatolin (aka. &lt;a href=&#34;https://github.com/CypherPotato&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CypherPotato&lt;/a&gt;). It may be common for me to express a bit of my opinion on code, concepts, and perhaps other insights about programming in general, but I will always try to focus on Sisk.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

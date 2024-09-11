@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HTTPS on Today in Sisk</title>
+    <link>http://localhost:9999/tags/https/</link>
+    <description>Recent content in HTTPS on Today in Sisk</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Sep 2024 20:33:48 -0300</lastBuildDate>
+    <atom:link href="http://localhost:9999/tags/https/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTTPS is coming, natively, to Sisk</title>
+      <link>http://localhost:9999/posts/2024-09-10-ssliscoming/</link>
+      <pubDate>Tue, 10 Sep 2024 20:33:48 -0300</pubDate>
+      <guid>http://localhost:9999/posts/2024-09-10-ssliscoming/</guid>
+      <description>&lt;p&gt;É exatamente isso. Estou trabalhando em uma implementação própria de leitor de HTTP/1.1 com suporte à HTTPS para o Sisk.&lt;/p&gt;&#xA;&lt;p&gt;Recentemente, recebi novo pessoal para fazer parte da equipe de trabalho onde estou. Este novo pessoal assumiu, junto à mim, um projeto que está executando com Sisk. É um projeto bem grande, de alta complexidade, e fiquei orgulhoso em apresentar o Sisk.&lt;/p&gt;&#xA;&lt;p&gt;Enquanto mostrava sobre o projeto, tive que ensinar eles a por aquilo para funcionar. Não era como um projeto convencional, o Sisk exigia um setup inicial muito maior, chato e desanimador. O motivo disso era o SSL. Nosso projeto dependia de autenticação via cookie entre domínios, e eram domínios mapeados para o próprio localhost do computador (o tal do arquivo &lt;code&gt;hosts&lt;/code&gt;). Essa configuração envolveu:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

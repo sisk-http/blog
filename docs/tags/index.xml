@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Today in Sisk</title>
+    <link>https://blog.sisk-framework.org/tags/</link>
+    <description>Recent content in Tags on Today in Sisk</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Sep 2024 22:34:40 -0300</lastBuildDate>
+    <atom:link href="https://blog.sisk-framework.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sisk</title>
+      <link>https://blog.sisk-framework.org/tags/sisk/</link>
+      <pubDate>Mon, 09 Sep 2024 22:34:40 -0300</pubDate>
+      <guid>https://blog.sisk-framework.org/tags/sisk/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
