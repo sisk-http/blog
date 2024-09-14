@@ -1,3 +1,55 @@
+/* article.xcss */
+body main #single .post-img {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+    height: 350px;
+    object-fit: cover;
+}
+
+body main #single h1.title {
+    font-size: 3.25rem;
+    font-weight: 300;
+    margin-bottom: 0;
+}
+
+body main #single .tip {
+    padding: 30px 0;
+    opacity: .75;
+}
+
+body main #single .content {
+    font-size: 18px;
+    padding-bottom: 60px;
+}
+
+body main #single .content h1, body main #single .content h2, body main #single .content h3 {
+    margin-block: 2.5em 1em;
+}
+
+body main #single .content h1 a, body main #single .content h2 a, body main #single .content h3 a {
+    opacity: 0;
+    transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+body main #single .content h1 a:hover, body main #single .content h2 a:hover, body main #single .content h3 a:hover {
+    opacity: 1 !important;
+    text-decoration: none;
+}
+
+body main #single .content h1:hover a, body main #single .content h2:hover a, body main #single .content h3:hover a {
+    opacity: .25;
+}
+
+body main #single .content p + p {
+    margin-top: 1.5em;
+}
+
+body main #single .content img {
+    display: block;
+    margin-inline: auto;
+    max-width: 100%;
+}
 /* globals.xcss */
 :root {
     --primary-color: rgb(7, 45, 172);
@@ -34,16 +86,6 @@ p, li, .summary {
 
 h1, h2, h3, h4 {
     font-weight: 500;
-}
-/* footer.xcss */
-body footer {
-    max-width: var(--container-size);
-    margin-inline: auto;
-    text-align: center;
-    opacity: .7;
-    margin-top: 70px;
-    font-size: .9rem;
-    padding: 50px 0;
 }
 /* archive.xcss */
 #archive {
@@ -168,40 +210,6 @@ body nav a span.arrow {
         justify-content: flex-start;
     }
 }
-/* main.xcss */
-body main {
-    max-width: var(--container-size);
-    margin-inline: auto;
-}
-
-body main header.profile {
-    margin-bottom: 70px;
-    text-align: center;
-}
-
-body main header.profile h1 {
-    font-weight: 300;
-    font-size: 2.3rem;
-    margin-block: 0;
-}
-
-body main header.profile h2 {
-    font-weight: 400;
-    margin-top: 10px;
-    font-size: .9rem;
-    opacity: .7;
-}
-
-body main header.profile img {
-    width: 80px;
-    height: 80px;
-}
-
-@media (max-width: 700px) {
-    body main {
-        padding-inline: 15px;
-    }
-}
 /* list-page.xcss */
 body main #list-page {
     display: grid;
@@ -251,8 +259,8 @@ body main #list-page > a > div::before {
                         rgba(0, 0, 0, 0.44) 0%,
                         rgba(0, 0, 0, 0.22) 12%,
                         rgba(0, 0, 0, 0.11) 30%,
-                        rgba(0, 0, 0, 0.15) 80%,
-                        rgba(0, 0, 0, 0.4) 100%);
+                        rgba(0, 0, 0, 0.25) 80%,
+                        rgba(0, 0, 0, 0.6) 100%);
     z-index: -1;
 }
 
@@ -281,12 +289,58 @@ body main #list-page > a > div h2 {
         grid-template-columns: 1fr;
     }
 }
+/* main.xcss */
+body main {
+    max-width: var(--container-size);
+    margin-inline: auto;
+}
+
+body main header.profile {
+    margin-bottom: 70px;
+    text-align: center;
+}
+
+body main header.profile h1 {
+    font-weight: 300;
+    font-size: 2.3rem;
+    margin-block: 0;
+}
+
+body main header.profile h2 {
+    font-weight: 400;
+    margin-top: 10px;
+    font-size: .9rem;
+    opacity: .7;
+}
+
+body main header.profile img {
+    width: 80px;
+    height: 80px;
+}
+
+@media (max-width: 700px) {
+    body main {
+        padding-inline: 15px;
+    }
+}
+/* footer.xcss */
+body footer {
+    max-width: var(--container-size);
+    margin-inline: auto;
+    text-align: center;
+    opacity: .7;
+    margin-top: 70px;
+    font-size: .9rem;
+    padding: 50px 0;
+}
 /* code.xcss */
 pre {
     background-color: #fcfcfc !important;
     border: 1px solid gainsboro;
     border-radius: 8px;
     padding: 14px 18px;
+    max-height: 700px;
+    overflow: auto;
 }
 
 pre code {
@@ -302,56 +356,4 @@ pre code {
     font-size: 1rem;
     padding: 1px 4px;
     border-radius: 4px;
-}
-/* article.xcss */
-body main #single .post-img {
-    width: 100%;
-    display: block;
-    border-radius: 10px;
-    height: 350px;
-    object-fit: cover;
-}
-
-body main #single h1.title {
-    font-size: 3.25rem;
-    font-weight: 300;
-    margin-bottom: 0;
-}
-
-body main #single .tip {
-    padding: 30px 0;
-    opacity: .75;
-}
-
-body main #single .content {
-    font-size: 18px;
-    padding-bottom: 60px;
-}
-
-body main #single .content h1, body main #single .content h2, body main #single .content h3 {
-    margin-block: 2.5em 1em;
-}
-
-body main #single .content h1 a, body main #single .content h2 a, body main #single .content h3 a {
-    opacity: 0;
-    transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-body main #single .content h1 a:hover, body main #single .content h2 a:hover, body main #single .content h3 a:hover {
-    opacity: 1 !important;
-    text-decoration: none;
-}
-
-body main #single .content h1:hover a, body main #single .content h2:hover a, body main #single .content h3:hover a {
-    opacity: .25;
-}
-
-body main #single .content p + p {
-    margin-top: 1.5em;
-}
-
-body main #single .content img {
-    display: block;
-    margin-inline: auto;
-    max-width: 100%;
 }

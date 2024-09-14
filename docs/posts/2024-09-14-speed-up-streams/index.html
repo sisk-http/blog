@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Speed up Sisk using streams | Today in Sisk</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="Reading and writing content with HTTP seems simple? With C#, it&rsquo;s even easier. But are you doing it the right way?
+If I asked you to serve an image through the GET /cute-dog.png route, how would you do it? Well, the simplest way would be to read the file, get its content type, and send it in the response. Something like this:
+using Sisk.Core.Http;
+using Sisk.Ssl;
+
+using var app = HttpServer.CreateBuilder()
+    .UseSsl(8080)
+    .Build();
+
+app.Router.MapGet(&#34;/cute-dog.png&#34;, r =&gt;
+{
+    byte[] cuteDogBytes = File.ReadAllBytes(@&#34;cute-dog.png&#34;);
+
+    return new HttpResponse()
+        .WithContent(new ByteArrayContent(cuteDogBytes))
+        .WithHeader(&#34;Content-Type&#34;, &#34;image/png&#34;);
+});
+
+await app.StartAsync();
+">
+<meta name="generator" content="Hugo 0.134.1">
+
+
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>Home</a>
+	
+	<a href="/posts">Archive</a>
+    <a target="_blank" href="https://docs.sisk-framework.org/">Get started</a>
+	<a href="/about">About</a>
+
+	
+
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+
+    <img class="post-img" src="/pimg/1726009208_3331_88232.png" alt="Speed up Sisk using streams" />
+
+    <h1 class="title">Speed up Sisk using streams</h1>
+
+    <div class="tip">
+        <time datetime="2024-09-14 02:56:51 -0300 -03">Sep 14, 2024</time>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            883 words
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            5 minute read
+        </span>
+        
+        <span class="split">
+            &bullet;
+        </span>
+        
+        <span>HTTPS</span>
+        
+        
+    </div>
+
+    
+
+    <div class="content">
+        <p>Reading and writing content with HTTP seems simple? With C#, it&rsquo;s even easier. But are you doing it the right way?</p>
+<p>If I asked you to serve an image through the <code>GET /cute-dog.png</code> route, how would you do it? Well, the simplest way would be to read the file, get its content type, and send it in the response. Something like this:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#00f">using</span> Sisk.Core.Http;
+</span></span><span style="display:flex;"><span><span style="color:#00f">using</span> Sisk.Ssl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">using</span> var app = HttpServer.CreateBuilder()
+</span></span><span style="display:flex;"><span>    .UseSsl(8080)
+</span></span><span style="display:flex;"><span>    .Build();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app.Router.MapGet(<span style="color:#a31515">&#34;/cute-dog.png&#34;</span>, r =&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#2b91af">byte</span>[] cuteDogBytes = File.ReadAllBytes(<span style="color:#a31515">@&#34;cute-dog.png&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">return</span> <span style="color:#00f">new</span> HttpResponse()
+</span></span><span style="display:flex;"><span>        .WithContent(<span style="color:#00f">new</span> ByteArrayContent(cuteDogBytes))
+</span></span><span style="display:flex;"><span>        .WithHeader(<span style="color:#a31515">&#34;Content-Type&#34;</span>, <span style="color:#a31515">&#34;image/png&#34;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">await</span> app.StartAsync();
+</span></span></code></pre></div><p>Do you see any problem in the code above? If I open my browser and access <code>https://localhost:8080/cute-dog.png</code>, this would be the result:</p>
+<p><p class="markdown-image">
+  <img src="/scr/cutedog.png" alt="sher name is Vaquinha"  />
+</p></p>
+<p>Just kidding! You definitely don’t have that photo on your computer, so some error will happen on your machine, or you might see another dog (I don&rsquo;t guarantee it&rsquo;s cute).</p>
+<p>But let&rsquo;s go back to the code. The result is what I expect, but every time I access <code>GET /cute-dog.png</code>, the server will need to read the file, store the content in memory, and then send it to the client. In doing so, I must trust that the GC will collect that memory after sending the file.</p>
+<p>But what if I access this file 100 times? The server will need to read the file 100 times, store the content in memory 100 times, and then send it to the client 100 times. If the file I&rsquo;m sending is an image, it might not bother the server much, but what if I&rsquo;m serving a <code>big-file.zip</code> with 150 MB of content?</p>
+<p>That&rsquo;s what I want to address.</p>
+<h1 id="http-is-about-streaming">HTTP is about streaming <a href="#http-is-about-streaming" class="anchor">🔗</a></h1><p>Exactly that. It&rsquo;s not the video streaming you&rsquo;re thinking of, but content streaming. HTTP works over TCP, and the content is sent in a continuous byte stream between the client and the server. This streaming is one-way, but there is a time to read and a time to write for each party.</p>
+<p>When I request a file from a server via <code>GET</code>, <em>commonly</em> the client expects the server to respond with the file&rsquo;s content. Instead of reading the file&rsquo;s content into memory, we can simply copy the file&rsquo;s read stream to the client&rsquo;s write stream.</p>
+<p>How? I have an example.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>app.Router.MapGet(<span style="color:#a31515">&#34;/cute-dog.png&#34;</span>, r =&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#008000">// create a read stream from the file</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">using</span> var fileStream = File.OpenRead(<span style="color:#a31515">@&#34;cute-dog.png&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000">// get the output stream for the response</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000">// no need for &#34;using&#34; here because the connection is properly closed</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000">// by the server.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#2b91af">var</span> responseStream = r.GetResponseStream();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000">// send the status and headers to the client</span>
+</span></span><span style="display:flex;"><span>    responseStream.SetStatus(HttpStatusCode.OK);
+</span></span><span style="display:flex;"><span>    responseStream.SetHeader(<span style="color:#a31515">&#34;Content-Type&#34;</span>, <span style="color:#a31515">&#34;image/png&#34;</span>);
+</span></span><span style="display:flex;"><span>    responseStream.SetHeader(<span style="color:#a31515">&#34;Content-Length&#34;</span>, fileStream.Length);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000">// copy the file read stream to the client&#39;s output</span>
+</span></span><span style="display:flex;"><span>    fileStream.CopyTo(responseStream.ResponseStream);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#008000">// close the transmission</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">return</span> responseStream.Close();
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>It&rsquo;s a slightly advanced example. I show how to send headers, status, and file content. Never send status and headers after starting to send the content! This is not allowed in HTTP, and Sisk does not support <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Trailer" target="_blank" rel="noopener">trailers</a>.</p>
+<p>There&rsquo;s also an even simpler way to do this using a <a href="https://learn.microsoft.com/en-us/dotnet/api/system.net.http.streamcontent?view=net-8.0" target="_blank" rel="noopener">StreamContent</a> object.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#00f">using</span> var app = HttpServer.CreateBuilder()
+</span></span><span style="display:flex;"><span>    .UseSsl(8080)
+</span></span><span style="display:flex;"><span>    .Build();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app.Router.MapGet(<span style="color:#a31515">&#34;/cute-dog.png&#34;</span>, r =&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#2b91af">var</span> fileStream = File.OpenRead(<span style="color:#a31515">@&#34;cute-dog.png&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">return</span> <span style="color:#00f">new</span> HttpResponse()
+</span></span><span style="display:flex;"><span>        .WithHeader(<span style="color:#a31515">&#34;Content-Type&#34;</span>, <span style="color:#a31515">&#34;image/png&#34;</span>)
+</span></span><span style="display:flex;"><span>        .WithContent(<span style="color:#00f">new</span> StreamContent(fileStream));
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">await</span> app.StartAsync();
+</span></span></code></pre></div><p>Here, there’s no need to apply <code>using</code> to the <code>fileStream</code>, and it shouldn’t be applied. The file read stream is automatically closed when the server sends the response to the client. However, <strong>I do not recommend</strong> using <code>StreamContent</code> because if you encounter an error before sending the response to your client, the open streams might not close properly.</p>
+<p>Sisk can only close streams after it reaches the server step of reading the stream content. At this stage, it&rsquo;s guaranteed your stream will be closed. But until it gets there, it can&rsquo;t guarantee that everything will go well with your stream.</p>
+<p>To be safe, use the first example.</p>
+<h1 id="and-for-reading">And for reading? <a href="#and-for-reading" class="anchor">🔗</a></h1><p>You can also read the content sent from your client through a stream! No copying everything to memory. Additionally, the content of a request is never read automatically unless you call some read property of <code>HttpResponse</code>.</p>
+<p>The example below deserializes a JSON message from the client content:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#00f">using</span> var app = HttpServer.CreateBuilder()
+</span></span><span style="display:flex;"><span>    .UseSsl(8080)
+</span></span><span style="display:flex;"><span>    .Build();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app.Router.MapPost(<span style="color:#a31515">&#34;/users&#34;</span>, r =&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#2b91af">string</span> requestBody = r.Body;
+</span></span><span style="display:flex;"><span>    User? userJson = JsonSerializer.Deserialize&lt;User&gt;(requestBody);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">if</span> (db.Users.Add(userJson))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">return</span> <span style="color:#00f">new</span> HttpResponse(200);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">else</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">return</span> <span style="color:#00f">new</span> HttpResponse(400);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">await</span> app.StartAsync();
+</span></span></code></pre></div><p>Here, I read the content of my request into <code>requestBody</code> because I accessed <code>HttpRequest.Body</code>. This property reads the client&rsquo;s read stream content into a string using the encoding the client specified in its content. If no encoding is specified, Sisk will use <code>Encoding.Default</code>.</p>
+<p>For this, I have to read all my content into memory. After that, I interpret the JSON present in this content. The point is, the native JSON library supports streams, so I can improve my code significantly with:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#2b91af">var</span> requestStream = r.GetRequestStream();
+</span></span><span style="display:flex;"><span>User? userJson = JsonSerializer.Deserialize&lt;User&gt;(requestStream);
+</span></span></code></pre></div><p>And again: no <code>using</code> here. The client&rsquo;s read stream is automatically closed when the server finishes reading the content. Whether an error occurred during reading or not, the stream is closed. I promise.</p>
+<h1 id="conclusion">Conclusion <a href="#conclusion" class="anchor">🔗</a></h1><p>Streams are a fundamental part of Sisk. In fact, they are a fundamental part of HTTP in general, yet some servers don&rsquo;t implement this, or their users don&rsquo;t even know it exists.</p>
+<p>Now you know. How about starting to stream your responses now?</p>
+
+    </div>
+
+    
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        Project Principium
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-mini'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>

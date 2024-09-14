@@ -3,6 +3,8 @@ pre {
     border: 1px solid gainsboro;
     border-radius: 8px;
     padding: 14px 18px;
+    max-height: 700px;
+    overflow: auto;
 
     code {
         line-height: 1.6;
