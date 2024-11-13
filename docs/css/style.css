@@ -5,6 +5,9 @@ body main #single .post-img {
     border-radius: 10px;
     height: 350px;
     object-fit: cover;
+    border: 1px solid #00000074;
+    outline: 2px solid #ffffff77;
+    outline-offset: -3px;
 }
 
 body main #single h1.title {
@@ -225,6 +228,9 @@ body main #list-page > a {
     overflow: hidden;
     border-radius: 8px;
     height: 250px;
+    border: 1px solid #00000094;
+    outline: 2px solid #ffffff97;
+    outline-offset: -3px;
 }
 
 body main #list-page > a img {
@@ -356,4 +362,22 @@ pre code {
     font-size: 1rem;
     padding: 1px 4px;
     border-radius: 4px;
+}
+
+main .content .gist > .gist-file {
+    border: 1px solid gainsboro;
+    border-radius: 8px;
+    padding: 14px;
+}
+
+main .content .gist > .gist-file .gist-meta {
+    background-color: gainsboro;
+    border-radius: 4px;
+    margin-top: 5px;
+    opacity: .4;
+    transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+main .content .gist > .gist-file .gist-meta:hover {
+    opacity: 1;
 }

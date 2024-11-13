@@ -6,8 +6,15 @@
     <description>Recent content on Today in Sisk</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Sep 2024 02:56:51 -0300</lastBuildDate>
+    <lastBuildDate>Wed, 13 Nov 2024 14:17:04 -0300</lastBuildDate>
     <atom:link href="https://blog.sisk-framework.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sisk v1.3 is available now</title>
+      <link>https://blog.sisk-framework.org/posts/2024-11-13-sisk-1-3-released/</link>
+      <pubDate>Wed, 13 Nov 2024 14:17:04 -0300</pubDate>
+      <guid>https://blog.sisk-framework.org/posts/2024-11-13-sisk-1-3-released/</guid>
+      <description>&lt;p&gt;Sisk 1.3 is being released today!&lt;/p&gt;&#xA;&lt;p&gt;This update brings performance improvements, another way to write your favorite APIs, and something similar to dependency injection.&lt;/p&gt;&#xA;&lt;p&gt;Sisk&amp;rsquo;s commitment remains the same: to be simple to develop a quality HTTP application. Sisk has no dependencies other than the .NET ecosystem itself, and all its code is still less than 1KB in total. Sisk has a minimal footprint, focusing performance on your application&amp;rsquo;s layer, not the server.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Speed up Sisk using streams</title>
       <link>https://blog.sisk-framework.org/posts/2024-09-14-speed-up-streams/</link>

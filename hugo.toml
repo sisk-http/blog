@@ -14,6 +14,9 @@ description = "Talking news, tips and everything else about the Sisk Framework f
 # hiddenPostSummaryInHomePage = true
 copyright = "Project Principium"
 
+[markup.goldmark.renderer]
+unsafe = true
+
 [markup]
   [markup.highlight]
     style = 'vs'

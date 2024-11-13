@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Sisk v1.3 is available now | Today in Sisk</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="Sisk 1.3 is being released today!
+This update brings performance improvements, another way to write your favorite APIs, and something similar to dependency injection.
+Sisk&rsquo;s commitment remains the same: to be simple to develop a quality HTTP application. Sisk has no dependencies other than the .NET ecosystem itself, and all its code is still less than 1KB in total. Sisk has a minimal footprint, focusing performance on your application&rsquo;s layer, not the server.">
+<meta name="generator" content="Hugo 0.134.1">
+
+
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>Home</a>
+	
+	<a href="/posts">Archive</a>
+    <a target="_blank" href="https://docs.sisk-framework.org/">Get started</a>
+	<a href="/about">About</a>
+
+	
+
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+
+    <img class="post-img" src="/pimg/1726009262_129_39772.png" alt="Sisk v1.3 is available now" />
+
+    <h1 class="title">Sisk v1.3 is available now</h1>
+
+    <div class="tip">
+        <time datetime="2024-11-13 14:17:04 -0300 -03">Nov 13, 2024</time>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            435 words
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            3 minute read
+        </span>
+        
+        <span class="split">
+            &bullet;
+        </span>
+        
+        <span>Releases</span>
+        
+        
+    </div>
+
+    
+
+    <div class="content">
+        <p>Sisk 1.3 is being released today!</p>
+<p>This update brings performance improvements, another way to write your favorite APIs, and something similar to dependency injection.</p>
+<p>Sisk&rsquo;s commitment remains the same: to be simple to develop a quality HTTP application. Sisk has no dependencies other than the .NET ecosystem itself, and all its code is still less than 1KB in total. Sisk has a minimal footprint, focusing performance on your application&rsquo;s layer, not the server.</p>
+<p>We would also like to showcase the new logo of the project. It is more modern while still referencing what the project used to be.</p>
+<p><p class="markdown-image">
+  <img src="https://sisk-framework.org/assets/img/Presentation.png" alt="Sisk logo"  />
+</p></p>
+<h2 id="performance-improvements">Performance improvements <a href="#performance-improvements" class="anchor">🔗</a></h2><p>Sisk has a limitation: it depends on the current implementation of HttpListener to work. This implementation is great on Windows and has performance comparable to ASP.NET, but in recent tests, we found that the managed implementation of HttpListener lags significantly behind ASP.NET&rsquo;s Kestrel, which happens outside Windows environments. Even so, Sisk still manages to be much more performant and efficient than many other development frameworks in other languages. Our goal is not to be better than ASP.NET, but the closer we get to its performance, the more viable the choice of Sisk becomes for more projects.</p>
+<p>In version 1.3, we achieved an average performance increase of 15% overall for request processing. This is because we improved the way the server sends the content of a response to the client. The HttpResponse object depends on HttpContent to define content to send to the client, and previously, this object had to be serialized through <a href="https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasbytearrayasync?view=net-8.0" target="_blank" rel="noopener">HttpContent.ReadAsByteArrayAsync</a>. The problem is that many contents are based on ByteArrayContent, and when calling this method on this type of content, a memory buffer was created, and the response bytes were copied to this buffer. Then, this buffer was copied to the response&rsquo;s output stream.</p>
+<p>Thanks to <a href="https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.unsafeaccessorattribute?view=net-8.0" target="_blank" rel="noopener">UnsafeAccessor</a> in .NET 8, we can access the response bytes directly, without the need to create this secondary buffer. This greatly improved overall performance.</p>
+<p><p class="markdown-image">
+  <img src="https://raw.githubusercontent.com/sisk-http/archive/refs/heads/master/assets/sisk-benchmark-1-3.png" alt="benchmark"  />
+</p></p>
+<p>In addition, there were performance improvements outside of the request processor as well. Improvements were made in the way the server writes messages to the access log and deserializes multipart content.</p>
+<h2 id="static-httpcontexts">Static HttpContexts <a href="#static-httpcontexts" class="anchor">🔗</a></h2><p>An experimental feature is to expose the current HttpContext of a request in a local context of the execution thread. This allows you to expose members of a request outside the request method, greatly improving the readability of your code. The code snippet below shows an abstract class that functions as an API controller with an embedded database.</p>
+<script src="https://gist.github.com/CypherPotato/45a05dd23e8a99f219854bf05ad33a87.js"></script>
+<p>You can read more about this feature in the <a href="https://docs.sisk-framework.org/docs/features/instancing" target="_blank" rel="noopener">documentation</a>.</p>
+<p>Read all the details of this release in the <a href="https://github.com/sisk-http/archive/blob/master/changelogs/v1.3/v1.3.md" target="_blank" rel="noopener">official changelog</a>.</p>
+
+    </div>
+
+    
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        Project Principium
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-mini'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>

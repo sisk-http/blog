@@ -15,6 +15,9 @@ body main #list-page {
         overflow: hidden;
         border-radius: 8px;
         height: 250px;
+        border: 1px solid #00000094;
+        outline: 2px solid #ffffff97;
+        outline-offset: -3px;
 
         img {
             width: 100%;

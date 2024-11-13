@@ -6,6 +6,9 @@ body main #single {
         border-radius: 10px;
         height: 350px;
         object-fit: cover;
+        border: 1px solid #00000074;
+        outline: 2px solid #ffffff77;
+        outline-offset: -3px;
     }
 
     h1.title {
