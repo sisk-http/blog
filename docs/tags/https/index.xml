@@ -2,24 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>HTTPS on Today in Sisk</title>
-    <link>https://blog.sisk-framework.org/tags/https/</link>
+    <link>http://localhost:1313/tags/https/</link>
     <description>Recent content in HTTPS on Today in Sisk</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Sep 2024 02:56:51 -0300</lastBuildDate>
-    <atom:link href="https://blog.sisk-framework.org/tags/https/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Nov 2024 14:17:04 -0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/https/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cadente: a bold experiment for Sisk</title>
+      <link>http://localhost:1313/posts/2025-01-29-cadente-experiment/</link>
+      <pubDate>Wed, 13 Nov 2024 14:17:04 -0300</pubDate>
+      <guid>http://localhost:1313/posts/2025-01-29-cadente-experiment/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Speed up Sisk using streams</title>
-      <link>https://blog.sisk-framework.org/posts/2024-09-14-speed-up-streams/</link>
+      <link>http://localhost:1313/posts/2024-09-14-speed-up-streams/</link>
       <pubDate>Sat, 14 Sep 2024 02:56:51 -0300</pubDate>
-      <guid>https://blog.sisk-framework.org/posts/2024-09-14-speed-up-streams/</guid>
+      <guid>http://localhost:1313/posts/2024-09-14-speed-up-streams/</guid>
       <description>&lt;p&gt;Reading and writing content with HTTP seems simple? With C#, it&amp;rsquo;s even easier. But are you doing it the right way?&lt;/p&gt;&#xA;&lt;p&gt;If I asked you to serve an image through the &lt;code&gt;GET /cute-dog.png&lt;/code&gt; route, how would you do it? Well, the simplest way would be to read the file, get its content type, and send it in the response. Something like this:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00f&#34;&gt;using&lt;/span&gt; Sisk.Core.Http;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00f&#34;&gt;using&lt;/span&gt; Sisk.Ssl;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00f&#34;&gt;using&lt;/span&gt; var app = HttpServer.CreateBuilder()&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .UseSsl(8080)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .Build();&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;app.Router.MapGet(&lt;span style=&#34;color:#a31515&#34;&gt;&amp;#34;/cute-dog.png&amp;#34;&lt;/span&gt;, r =&amp;gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#2b91af&#34;&gt;byte&lt;/span&gt;[] cuteDogBytes = File.ReadAllBytes(&lt;span style=&#34;color:#a31515&#34;&gt;@&amp;#34;cute-dog.png&amp;#34;&lt;/span&gt;);&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00f&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;new&lt;/span&gt; HttpResponse()&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        .WithContent(&lt;span style=&#34;color:#00f&#34;&gt;new&lt;/span&gt; ByteArrayContent(cuteDogBytes))&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        .WithHeader(&lt;span style=&#34;color:#a31515&#34;&gt;&amp;#34;Content-Type&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a31515&#34;&gt;&amp;#34;image/png&amp;#34;&lt;/span&gt;);&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;});&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00f&#34;&gt;await&lt;/span&gt; app.StartAsync();&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     <item>
       <title>HTTPS is coming, natively, to Sisk</title>
-      <link>https://blog.sisk-framework.org/posts/2024-09-10-ssliscoming/</link>
+      <link>http://localhost:1313/posts/2024-09-10-ssliscoming/</link>
       <pubDate>Tue, 10 Sep 2024 20:33:48 -0300</pubDate>
-      <guid>https://blog.sisk-framework.org/posts/2024-09-10-ssliscoming/</guid>
+      <guid>http://localhost:1313/posts/2024-09-10-ssliscoming/</guid>
       <description>&lt;p&gt;That&amp;rsquo;s exactly it. I am working on my own implementation of an HTTP/1.1 serializer with HTTPS support for Sisk.&lt;/p&gt;&#xA;&lt;p&gt;Recently, I received new personnel to join the team where I work. This new team took on a project that is running with Sisk alongside me. It is a large, high-complexity project, and I was proud to present Sisk.&lt;/p&gt;&#xA;&lt;p&gt;While showing them the project, I had to teach them how to get it working. It wasn&amp;rsquo;t like a conventional project; Sisk required a much larger, tedious, and discouraging initial setup. The reason for this was SSL. Our project depended on cookie-based authentication across domains, and these were domains mapped to the computer&amp;rsquo;s localhost (the so-called &lt;code&gt;hosts&lt;/code&gt; file). This setup involved:&lt;/p&gt;</description>
     </item>
   </channel>
