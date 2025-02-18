@@ -2,6 +2,7 @@
 title = 'Speed up Sisk using streams'
 date = 2024-09-14T02:56:51-03:00
 draft = false
+author = "CypherPotato"
 
 [params]
 tags = ['HTTPS']
@@ -12,25 +13,7 @@ Reading and writing content with HTTP seems simple? With C#, it's even easier. B
 
 If I asked you to serve an image through the `GET /cute-dog.png` route, how would you do it? Well, the simplest way would be to read the file, get its content type, and send it in the response. Something like this:
 
-```csharp
-using Sisk.Core.Http;
-using Sisk.Ssl;
-
-using var app = HttpServer.CreateBuilder()
-    .UseSsl(8080)
-    .Build();
-
-app.Router.MapGet("/cute-dog.png", r =>
-{
-    byte[] cuteDogBytes = File.ReadAllBytes(@"cute-dog.png");
-
-    return new HttpResponse()
-        .WithContent(new ByteArrayContent(cuteDogBytes))
-        .WithHeader("Content-Type", "image/png");
-});
-
-await app.StartAsync();
-```
+<script src="https://gist.github.com/CypherPotato/0286e6af1bc6012070d4d3ef009f3a45.js"></script>
 
 Do you see any problem in the code above? If I open my browser and access `https://localhost:8080/cute-dog.png`, this would be the result:
 
@@ -52,50 +35,13 @@ When I request a file from a server via `GET`, *commonly* the client expects the
 
 How? I have an example.
 
-```csharp
-app.Router.MapGet("/cute-dog.png", r =>
-{
-    // create a read stream from the file
-    using var fileStream = File.OpenRead(@"cute-dog.png");
-
-    // get the output stream for the response
-    // no need for "using" here because the connection is properly closed
-    // by the server.
-    var responseStream = r.GetResponseStream();
-
-    // send the status and headers to the client
-    responseStream.SetStatus(HttpStatusCode.OK);
-    responseStream.SetHeader("Content-Type", "image/png");
-    responseStream.SetHeader("Content-Length", fileStream.Length);
-
-    // copy the file read stream to the client's output
-    fileStream.CopyTo(responseStream.ResponseStream);
-
-    // close the transmission
-    return responseStream.Close();
-});
-```
+<script src="https://gist.github.com/CypherPotato/85d63402fb1c98ba062014d2161eaf7e.js"></script>
 
 It's a slightly advanced example. I show how to send headers, status, and file content. Never send status and headers after starting to send the content! This is not allowed in HTTP, and Sisk does not support [trailers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Trailer).
 
 There's also an even simpler way to do this using a [StreamContent](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.streamcontent?view=net-8.0) object.
 
-```csharp
-using var app = HttpServer.CreateBuilder()
-    .UseSsl(8080)
-    .Build();
-
-app.Router.MapGet("/cute-dog.png", r =>
-{
-    var fileStream = File.OpenRead(@"cute-dog.png");
-
-    return new HttpResponse()
-        .WithHeader("Content-Type", "image/png")
-        .WithContent(new StreamContent(fileStream));
-});
-
-await app.StartAsync();
-```
+<script src="https://gist.github.com/CypherPotato/6310a21e551a240532c39aab2cc7abcc.js"></script>
 
 Here, there’s no need to apply `using` to the `fileStream`, and it shouldn’t be applied. The file read stream is automatically closed when the server sends the response to the client. However, **I do not recommend** using `StreamContent` because if you encounter an error before sending the response to your client, the open streams might not close properly.
 
@@ -109,37 +55,13 @@ You can also read the content sent from your client through a stream! No copying
 
 The example below deserializes a JSON message from the client content:
 
-```csharp
-using var app = HttpServer.CreateBuilder()
-    .UseSsl(8080)
-    .Build();
-
-app.Router.MapPost("/users", r =>
-{
-    string requestBody = r.Body;
-    User? userJson = JsonSerializer.Deserialize<User>(requestBody);
-
-    if (db.Users.Add(userJson))
-    {
-        return new HttpResponse(200);
-    }
-    else
-    {
-        return new HttpResponse(400);
-    }
-});
-
-await app.StartAsync();
-```
+<script src="https://gist.github.com/CypherPotato/6baf6d46b86f73b9ca76c6d289f1ffbb.js"></script>
 
 Here, I read the content of my request into `requestBody` because I accessed `HttpRequest.Body`. This property reads the client's read stream content into a string using the encoding the client specified in its content. If no encoding is specified, Sisk will use `Encoding.Default`.
 
 For this, I have to read all my content into memory. After that, I interpret the JSON present in this content. The point is, the native JSON library supports streams, so I can improve my code significantly with:
 
-```csharp
-var requestStream = r.GetRequestStream();
-User? userJson = JsonSerializer.Deserialize<User>(requestStream);
-```
+<script src="https://gist.github.com/CypherPotato/bdd5b7b10647bffb14b9480c0875fd49.js"></script>
 
 And again: no `using` here. The client's read stream is automatically closed when the server finishes reading the content. Whether an error occurred during reading or not, the stream is closed. I promise.
 

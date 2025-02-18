@@ -1,5 +1,5 @@
 +++
-author = "Test"
+authors = "Test"
 title = "Code Content"
 date = "2021-03-10"
 description = "A brief description of Hugo Shortcodes"

@@ -8,7 +8,7 @@ defaultContentLanguage = "en"
 
 [params]
 env = "production"
-author = "CypherPotato"
+authors = "CypherPotato"
 bio = "Talking news, tips and everything else about the Sisk Framework for .NET"
 description = "Talking news, tips and everything else about the Sisk Framework for .NET"
 # hiddenPostSummaryInHomePage = true

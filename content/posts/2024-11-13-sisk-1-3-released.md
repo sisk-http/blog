@@ -1,6 +1,7 @@
 +++
 title = 'Sisk v1.3 is available now'
 date = 2024-11-13T14:17:04-03:00
+author = "CypherPotato"
 
 [params]
 tags = ['Releases']

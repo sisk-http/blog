@@ -6,14 +6,21 @@
     <description>Recent content in Posts on Today in Sisk</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 13 Nov 2024 14:17:04 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 18 Feb 2025 00:00:00 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TechEmpower benchmark results are out!</title>
+      <link>http://localhost:1313/posts/2025-02-18-techempower-results-are-out/</link>
+      <pubDate>Tue, 18 Feb 2025 00:00:00 -0300</pubDate>
+      <guid>http://localhost:1313/posts/2025-02-18-techempower-results-are-out/</guid>
+      <description>&lt;p&gt;My goal was never to lie about Sisk.&lt;/p&gt;&#xA;&lt;p&gt;I understood its limitations and problems, and worked to resolve and improve it. Some commercial projects already work well with Sisk, have pleasant performance, and are easy to maintain because they are open-source.&lt;/p&gt;&#xA;&lt;p&gt;Recently, I discovered that the HttpListener interface was very slow on Linux servers. On Windows, it is very fast, and even supports QUIC, but it depends on Windows. On Linux servers, which make up 99% of servers out there, there was an extra layer of having to use a proxy to handle SSL traffic.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Cadente: a bold experiment for Sisk</title>
       <link>http://localhost:1313/posts/2025-01-29-cadente-experiment/</link>
-      <pubDate>Wed, 13 Nov 2024 14:17:04 -0300</pubDate>
+      <pubDate>Wed, 29 Jan 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/2025-01-29-cadente-experiment/</guid>
-      <description></description>
+      <description>&lt;p&gt;You must have noticed that the SslProxy project has stopped. And yes, indeed, it will be discontinued soon.&lt;/p&gt;&#xA;&lt;p&gt;But this does not mean that its initial purpose has ceased to exist: bringing native HTTPS to Sisk. In fact, the project has taken a new direction, which led to the construction of the Cadente project: a pure C# implementation of HTTP/1.1 with SSL support, which should soon be implemented in Sisk/Core.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Sisk v1.3 is available now</title>
@@ -27,7 +34,7 @@
       <link>http://localhost:1313/posts/2024-09-14-speed-up-streams/</link>
       <pubDate>Sat, 14 Sep 2024 02:56:51 -0300</pubDate>
       <guid>http://localhost:1313/posts/2024-09-14-speed-up-streams/</guid>
-      <description>&lt;p&gt;Reading and writing content with HTTP seems simple? With C#, it&amp;rsquo;s even easier. But are you doing it the right way?&lt;/p&gt;&#xA;&lt;p&gt;If I asked you to serve an image through the &lt;code&gt;GET /cute-dog.png&lt;/code&gt; route, how would you do it? Well, the simplest way would be to read the file, get its content type, and send it in the response. Something like this:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-csharp&#34; data-lang=&#34;csharp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00f&#34;&gt;using&lt;/span&gt; Sisk.Core.Http;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00f&#34;&gt;using&lt;/span&gt; Sisk.Ssl;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00f&#34;&gt;using&lt;/span&gt; var app = HttpServer.CreateBuilder()&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .UseSsl(8080)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .Build();&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;app.Router.MapGet(&lt;span style=&#34;color:#a31515&#34;&gt;&amp;#34;/cute-dog.png&amp;#34;&lt;/span&gt;, r =&amp;gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#2b91af&#34;&gt;byte&lt;/span&gt;[] cuteDogBytes = File.ReadAllBytes(&lt;span style=&#34;color:#a31515&#34;&gt;@&amp;#34;cute-dog.png&amp;#34;&lt;/span&gt;);&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00f&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;new&lt;/span&gt; HttpResponse()&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        .WithContent(&lt;span style=&#34;color:#00f&#34;&gt;new&lt;/span&gt; ByteArrayContent(cuteDogBytes))&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        .WithHeader(&lt;span style=&#34;color:#a31515&#34;&gt;&amp;#34;Content-Type&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a31515&#34;&gt;&amp;#34;image/png&amp;#34;&lt;/span&gt;);&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;});&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00f&#34;&gt;await&lt;/span&gt; app.StartAsync();&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
+      <description>&lt;p&gt;Reading and writing content with HTTP seems simple? With C#, it&amp;rsquo;s even easier. But are you doing it the right way?&lt;/p&gt;&#xA;&lt;p&gt;If I asked you to serve an image through the &lt;code&gt;GET /cute-dog.png&lt;/code&gt; route, how would you do it? Well, the simplest way would be to read the file, get its content type, and send it in the response. Something like this:&lt;/p&gt;&#xA;&lt;script src=&#34;https://gist.github.com/CypherPotato/0286e6af1bc6012070d4d3ef009f3a45.js&#34;&gt;&lt;/script&gt;&#xA;&lt;p&gt;Do you see any problem in the code above? If I open my browser and access &lt;code&gt;https://localhost:8080/cute-dog.png&lt;/code&gt;, this would be the result:&lt;/p&gt;</description>
     </item>
     <item>
       <title>HTTPS is coming, natively, to Sisk</title>

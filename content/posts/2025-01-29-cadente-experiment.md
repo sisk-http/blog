@@ -1,6 +1,7 @@
 +++
 title = 'Cadente: a bold experiment for Sisk'
-date = 2024-11-13T14:17:04-03:00
+date = 2025-01-29
+author = "CypherPotato"
 
 [params]
 tags = ['HTTPS']

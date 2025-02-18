@@ -5,8 +5,14 @@
     <img class="post-img" src="{{ .Params.img }}" alt="{{ .Title }}" />
 
     <h1 class="title">{{ .Title }}</h1>
-
+    
     <div class="tip">
+        <span>
+            By {{ .Params.Author }}
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
         <time datetime="{{ .PublishDate }}">{{ i18n "publishDateFull" . }}</time>
         <span class="split">
             &bullet;

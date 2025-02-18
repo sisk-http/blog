@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Benchmark on Today in Sisk</title>
+    <link>http://localhost:1313/tags/benchmark/</link>
+    <description>Recent content in Benchmark on Today in Sisk</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 18 Feb 2025 00:00:00 -0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/benchmark/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TechEmpower benchmark results are out!</title>
+      <link>http://localhost:1313/posts/2025-02-18-techempower-results-are-out/</link>
+      <pubDate>Tue, 18 Feb 2025 00:00:00 -0300</pubDate>
+      <guid>http://localhost:1313/posts/2025-02-18-techempower-results-are-out/</guid>
+      <description>&lt;p&gt;My goal was never to lie about Sisk.&lt;/p&gt;&#xA;&lt;p&gt;I understood its limitations and problems, and worked to resolve and improve it. Some commercial projects already work well with Sisk, have pleasant performance, and are easy to maintain because they are open-source.&lt;/p&gt;&#xA;&lt;p&gt;Recently, I discovered that the HttpListener interface was very slow on Linux servers. On Windows, it is very fast, and even supports QUIC, but it depends on Windows. On Linux servers, which make up 99% of servers out there, there was an extra layer of having to use a proxy to handle SSL traffic.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
