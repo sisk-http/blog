@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cadente on Today in Sisk</title>
+    <link>https://blog.sisk-framework.org/tags/cadente/</link>
+    <description>Recent content in Cadente on Today in Sisk</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 14 Nov 2025 00:00:00 -0300</lastBuildDate>
+    <atom:link href="https://blog.sisk-framework.org/tags/cadente/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cadente on the edge: running Sisk without the old seatbelts</title>
+      <link>https://blog.sisk-framework.org/posts/2025-11-14-cadente-on-the-edge/</link>
+      <pubDate>Fri, 14 Nov 2025 00:00:00 -0300</pubDate>
+      <guid>https://blog.sisk-framework.org/posts/2025-11-14-cadente-on-the-edge/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve been spending the last weeks almost exclusively inside Wireshark traces and benchmark charts, and I can finally say this out loud: the &lt;strong&gt;Cadente project is almost ready&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Not &amp;ldquo;marketing ready&amp;rdquo;. I mean &amp;ldquo;I can run Sisk on it without being terrified every five minutes&amp;rdquo;.&lt;/p&gt;&#xA;&lt;p&gt;Cadente, if you missed the earlier post, is that bold attempt to write a &lt;strong&gt;pure C# HTTP/1.1 + SSL server engine&lt;/strong&gt; for Sisk – basically, a Kestrel‑like role in the Sisk ecosystem.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

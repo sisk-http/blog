@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Cadente on the edge: running Sisk without the old seatbelts | Today in Sisk</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="I&rsquo;ve been spending the last weeks almost exclusively inside Wireshark traces and benchmark charts, and I can finally say this out loud: the Cadente project is almost ready.
+Not &ldquo;marketing ready&rdquo;. I mean &ldquo;I can run Sisk on it without being terrified every five minutes&rdquo;.
+Cadente, if you missed the earlier post, is that bold attempt to write a pure C# HTTP/1.1 &#43; SSL server engine for Sisk – basically, a Kestrel‑like role in the Sisk ecosystem.">
+<meta name="generator" content="Hugo 0.152.2">
+
+
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>Home</a>
+	
+	<a href="/posts">Archive</a>
+    <a target="_blank" href="https://docs.sisk-framework.org/">Get started</a>
+	<a href="/about">About</a>
+
+	
+
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+
+    <img class="post-img" src="/pimg/1726026081_4216_97664.png" alt="Cadente on the edge: running Sisk without the old seatbelts" />
+
+    <h1 class="title">Cadente on the edge: running Sisk without the old seatbelts</h1>
+    
+    <div class="tip">
+        <span>
+            By Mia
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
+        <time datetime="2025-11-14 00:00:00 -0300 -03">Nov 14, 2025</time>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            387 words
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            2 minute read
+        </span>
+        
+        <span class="split">
+            &bullet;
+        </span>
+        
+        <span>HTTPS</span>
+        
+        <span>Cadente</span>
+        
+        
+    </div>
+
+    
+
+    <div class="content">
+        <p>I&rsquo;ve been spending the last weeks almost exclusively inside Wireshark traces and benchmark charts, and I can finally say this out loud: the <strong>Cadente project is almost ready</strong>.</p>
+<p>Not &ldquo;marketing ready&rdquo;. I mean &ldquo;I can run Sisk on it without being terrified every five minutes&rdquo;.</p>
+<p>Cadente, if you missed the earlier post, is that bold attempt to write a <strong>pure C# HTTP/1.1 + SSL server engine</strong> for Sisk – basically, a Kestrel‑like role in the Sisk ecosystem.</p>
+<p>Today, Cadente has:</p>
+<ul>
+<li><strong>Passed all Sisk compatibility tests</strong> for HTTP server engines</li>
+<li>Been running as the engine behind <strong>Sisk v1.6</strong> in my local and staging environments</li>
+<li>Survived ugly scenarios like long‑lived connections, SSE, and some pathological clients</li>
+</ul>
+<p>All the core behavior that Sisk expects from an <code>HttpServerEngine</code> is now green. That doesn&rsquo;t mean it&rsquo;s perfect; it means it fails <em>less often and more predictably</em>.</p>
+<h3 id="the-httpserverengine-api-rework">The HttpServerEngine API Rework <a href="#the-httpserverengine-api-rework" class="anchor">🔗</a></h3><p>To make Cadente viable at all, I had to <strong>rewamp (yeah, a full reshaping) the HttpEngine API</strong>:</p>
+<ul>
+<li>Clearer separation between transport layer (sockets, buffers, queues) and Sisk features (routing, middlewares, SSE)</li>
+<li>A more explicit event loop model, so different engines don&rsquo;t have to pretend to be <code>HttpListener</code></li>
+<li>Less magic, more boring predictable APIs – boring is good in infra code</li>
+</ul>
+<p>The downside: this will force some engine implementations or experiments to adapt. The upside: it&rsquo;s finally an API I don&rsquo;t hate reading six months later.</p>
+<h3 id="performance-better-but-not-magic">Performance: Better, But Not Magic <a href="#performance-better-but-not-magic" class="anchor">🔗</a></h3><p>Cadente&rsquo;s performance has improved compared to the early experiment:</p>
+<ul>
+<li>On Linux, it&rsquo;s consistently ahead of the <code>HttpListener</code> abstraction used by Sisk</li>
+<li>Latencies are more stable under load, which matters more than pretty &ldquo;req/s&rdquo; numbers</li>
+</ul>
+<p>Still, let&rsquo;s stay honest: this is <strong>not Kestrel</strong>, and it&rsquo;s not pretending to be. There are still missing HTTP/1.1 corner cases, and I expect a few ugly bugs to surface once more people hammer it in real workloads.</p>
+<h2 id="whats-next">What&rsquo;s Next <a href="#whats-next" class="anchor">🔗</a></h2><p>So yes: <strong>Cadente is almost ready</strong>, running on <strong>Sisk v1.6</strong> with:</p>
+<ul>
+<li>A reworked <code>HttpServerEngine</code> API</li>
+<li>All official Sisk compatibility tests passing</li>
+<li>Ongoing performance and stability tuning</li>
+</ul>
+<p>I&rsquo;m optimistic, but cautiously so. Cadente could still hit a wall in real production traffic, and if that happens, I&rsquo;d rather admit it and fix it than pretend it&rsquo;s &ldquo;enterprise‑ready&rdquo;.</p>
+<p>For now, I&rsquo;m just happy that Sisk can finally run without depending on <code>HttpListener</code> and without pretending SSL is someone else&rsquo;s problem.</p>
+
+    </div>
+
+    
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        Project Principium
+    
+    </div>
+
+    
+      <div class="powerby">
+        
+Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a
+href='https://github.com/nodejh/hugo-theme-mini'>nodejh</a>
+
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>
