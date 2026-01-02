@@ -2,54 +2,60 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://blog.sisk-framework.org/tags/cadente/</loc>
+    <loc>http://localhost:1313/posts/2026-01-02-api-versioning/</loc>
+    <lastmod>2026-01-02T19:46:08-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2026-01-02T19:46:08-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/routing/</loc>
+    <lastmod>2026-01-02T19:46:08-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2026-01-02T19:46:08-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2026-01-02T19:46:08-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/cadente/</loc>
     <lastmod>2025-11-14T00:00:00-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/posts/2025-11-14-cadente-on-the-edge/</loc>
+    <loc>http://localhost:1313/posts/2025-11-14-cadente-on-the-edge/</loc>
     <lastmod>2025-11-14T00:00:00-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/tags/https/</loc>
+    <loc>http://localhost:1313/tags/https/</loc>
     <lastmod>2025-11-14T00:00:00-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/posts/</loc>
-    <lastmod>2025-11-14T00:00:00-03:00</lastmod>
-  </url><url>
-    <loc>https://blog.sisk-framework.org/tags/</loc>
-    <lastmod>2025-11-14T00:00:00-03:00</lastmod>
-  </url><url>
-    <loc>https://blog.sisk-framework.org/</loc>
-    <lastmod>2025-11-14T00:00:00-03:00</lastmod>
-  </url><url>
-    <loc>https://blog.sisk-framework.org/tags/benchmark/</loc>
+    <loc>http://localhost:1313/tags/benchmark/</loc>
     <lastmod>2025-02-18T00:00:00-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/posts/2025-02-18-techempower-results-are-out/</loc>
+    <loc>http://localhost:1313/posts/2025-02-18-techempower-results-are-out/</loc>
     <lastmod>2025-02-18T00:00:00-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/posts/2025-01-29-cadente-experiment/</loc>
+    <loc>http://localhost:1313/posts/2025-01-29-cadente-experiment/</loc>
     <lastmod>2025-01-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/tags/releases/</loc>
+    <loc>http://localhost:1313/tags/releases/</loc>
     <lastmod>2024-11-13T14:17:04-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/posts/2024-11-13-sisk-1-3-released/</loc>
+    <loc>http://localhost:1313/posts/2024-11-13-sisk-1-3-released/</loc>
     <lastmod>2024-11-13T14:17:04-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/posts/2024-09-14-speed-up-streams/</loc>
+    <loc>http://localhost:1313/posts/2024-09-14-speed-up-streams/</loc>
     <lastmod>2024-09-14T02:56:51-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/posts/2024-09-10-ssliscoming/</loc>
+    <loc>http://localhost:1313/posts/2024-09-10-ssliscoming/</loc>
     <lastmod>2024-09-10T20:33:48-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/posts/2024-09-09-hello/</loc>
+    <loc>http://localhost:1313/posts/2024-09-09-hello/</loc>
     <lastmod>2024-09-09T22:34:40-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/tags/sisk/</loc>
+    <loc>http://localhost:1313/tags/sisk/</loc>
     <lastmod>2024-09-09T22:34:40-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/about/</loc>
+    <loc>http://localhost:1313/about/</loc>
     <lastmod>2024-09-09T22:30:40-03:00</lastmod>
   </url><url>
-    <loc>https://blog.sisk-framework.org/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url>
 </urlset>

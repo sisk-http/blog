@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <title>API Versioning: Making the Most of RoutePrefix | Today in Sisk</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="Have you ever shipped a breaking change to your API and watched the Slack notifications pile up from angry consumers? Yeah, me too. It&rsquo;s not fun. That&rsquo;s why API versioning is one of those things that seems optional until suddenly it&rsquo;s absolutely critical—and at that point, retrofitting it becomes a nightmare.
+Today I want to walk through how Sisk makes API versioning surprisingly elegant using the [RoutePrefix] attribute combined with RouterModule. It&rsquo;s one of those patterns that, once you see it, makes you wonder why you ever did it any other way.">
+<meta name="generator" content="Hugo 0.152.2">
+
+
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>Home</a>
+	
+	<a href="/posts">Archive</a>
+    <a target="_blank" href="https://docs.sisk-framework.org/">Get started</a>
+	<a href="/about">About</a>
+
+	
+
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+
+    <img class="post-img" src="/pimg/1726025967_8537_27164.png" alt="API Versioning: Making the Most of RoutePrefix" />
+
+    <h1 class="title">API Versioning: Making the Most of RoutePrefix</h1>
+    
+    <div class="tip">
+        <span>
+            By Mia, CypherPotato
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
+        <time datetime="2026-01-02 19:46:08 -0300 -03">Jan 2, 2026</time>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            1180 words
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            6 minute read
+        </span>
+        
+        <span class="split">
+            &bullet;
+        </span>
+        
+        <span>Routing</span>
+        
+        
+    </div>
+
+    
+
+    <div class="content">
+        <p>Have you ever shipped a breaking change to your API and watched the Slack notifications pile up from angry consumers? Yeah, me too. It&rsquo;s not fun. That&rsquo;s why API versioning is one of those things that seems optional until suddenly it&rsquo;s absolutely critical—and at that point, retrofitting it becomes a nightmare.</p>
+<p>Today I want to walk through how Sisk makes API versioning surprisingly elegant using the <code>[RoutePrefix]</code> attribute combined with <code>RouterModule</code>. It&rsquo;s one of those patterns that, once you see it, makes you wonder why you ever did it any other way.</p>
+<h2 id="the-problem-with-flat-routes">The Problem with Flat Routes <a href="#the-problem-with-flat-routes" class="anchor">🔗</a></h2><p>When you&rsquo;re building a quick prototype, it&rsquo;s tempting to just slap routes directly onto your router: <code>/users</code>, <code>/products</code>, <code>/orders</code>. Simple enough. But what happens six months later when you need to completely redesign how authentication works, or change the response schema for a critical endpoint? You can&rsquo;t just break existing clients.</p>
+<p>The classic solution is URL-based versioning: <code>/v1/users</code>, <code>/v2/users</code>. And in Sisk, this becomes almost trivially easy thanks to how <code>RoutePrefixAttribute</code> works with class inheritance.</p>
+<h2 id="building-a-versioned-api-structure">Building a Versioned API Structure <a href="#building-a-versioned-api-structure" class="anchor">🔗</a></h2><p>The <code>RoutePrefixAttribute</code> in Sisk does exactly what you&rsquo;d expect—it prepends a path segment to every route defined in a class. But the magic happens when you combine this with an abstract base controller. Here&rsquo;s what I mean:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#00f">public</span> <span style="color:#00f">abstract</span> <span style="color:#00f">class</span> <span style="color:#2b91af">ApiController</span> : RouterModule
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">static</span> T GetOrAddCurrent&lt;T&gt;(Func&lt;T&gt; getter) <span style="color:#00f">where</span> T : notnull
+</span></span><span style="display:flex;"><span>        =&gt; HttpContext.Current.RequestBag.GetOrAdd(getter);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> HttpContext Context =&gt; HttpContext.Current;
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> HttpRequest Request =&gt; HttpContext.Current.Request;
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> MainDbContext Database =&gt; GetOrAddCurrent(MainDbContext.Pool.CreateDbContext);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This base class extends <code>RouterModule</code>—Sisk&rsquo;s built-in abstraction for grouping routes, request handlers, and prefixes. Notice how it exposes <code>HttpContext.Current</code> for accessing the request context without needing to pass parameters around. That <code>GetOrAddCurrent</code> pattern is particularly clever for per-request resources like database contexts.</p>
+<p>Now, versioning becomes a simple matter of decoration:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>[RoutePrefix(&#34;/v1/users&#34;)]
+</span></span><span style="display:flex;"><span><span style="color:#00f">public</span> <span style="color:#00f">sealed</span> <span style="color:#00f">class</span> <span style="color:#2b91af">UsersControllerV1</span> : ApiController
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    [RouteGet]
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> <span style="color:#00f">async</span> Task&lt;ListUsersResponse&gt; List()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#008000">// v1 implementation</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    [RouteGet(&#34;/&lt;id&gt;&#34;)]
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> <span style="color:#00f">async</span> Task&lt;UserResponse&gt; GetById()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#2b91af">var</span> id = Request.RouteParameters[<span style="color:#a31515">&#34;id&#34;</span>].GetGuid();
+</span></span><span style="display:flex;"><span>        <span style="color:#008000">// ...</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The <code>[RouteGet]</code> attribute without a path maps to the prefix root—so <code>GET /v1/users</code> hits the <code>List</code> method. Add a path like <code>&quot;/&lt;id&gt;&quot;</code> and it becomes <code>GET /v1/users/{id}</code>. Clean and predictable.</p>
+<h2 id="evolving-to-v2-without-breaking-v1">Evolving to V2 (Without Breaking V1) <a href="#evolving-to-v2-without-breaking-v1" class="anchor">🔗</a></h2><p>Here&rsquo;s where it gets interesting. When you need a new version, you just create another controller:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>[RoutePrefix(&#34;/v2/users&#34;)]
+</span></span><span style="display:flex;"><span><span style="color:#00f">public</span> <span style="color:#00f">sealed</span> <span style="color:#00f">class</span> <span style="color:#2b91af">UsersControllerV2</span> : ApiController
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    [RouteGet]
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> <span style="color:#00f">async</span> Task&lt;PaginatedUsersResponse&gt; List()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#008000">// v2 returns paginated results</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#2b91af">var</span> page = Request.Query[<span style="color:#a31515">&#34;page&#34;</span>].GetInteger(1);
+</span></span><span style="display:flex;"><span>        <span style="color:#2b91af">var</span> pageSize = Request.Query[<span style="color:#a31515">&#34;pageSize&#34;</span>].GetInteger(20);
+</span></span><span style="display:flex;"><span>        <span style="color:#008000">// ...</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Both controllers coexist peacefully. V1 clients keep working while V2 clients get the shiny new paginated response. No feature flags, no conditional logic, no mess.</p>
+<p>What I particularly appreciate about Sisk&rsquo;s approach is that each controller is truly independent. Want to add specific request handlers (middleware) to V2 that don&rsquo;t apply to V1? Just use the <code>HasRequestHandler</code> method in the constructor or apply <code>[RequestHandler]</code> attributes. The <code>RouterModule</code> base class gives you <code>Prefix</code> and <code>RequestHandlers</code> properties to configure at runtime if you prefer that over attributes.</p>
+<h2 id="wiring-it-all-up">Wiring It All Up <a href="#wiring-it-all-up" class="anchor">🔗</a></h2><p>Registration is straightforward. Sisk&rsquo;s <code>Router</code> class provides <code>SetObject&lt;T&gt;()</code> to scan a class for route-attributed methods:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#2b91af">var</span> router = <span style="color:#00f">new</span> Router();
+</span></span><span style="display:flex;"><span>router.SetObject&lt;UsersControllerV1&gt;();
+</span></span><span style="display:flex;"><span>router.SetObject&lt;UsersControllerV2&gt;();
+</span></span></code></pre></div><p>Or, if you have many controllers and want automatic discovery, <code>AutoScanModules&lt;T&gt;()</code> will find everything that inherits from your base controller:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>router.AutoScanModules&lt;ApiController&gt;();
+</span></span></code></pre></div><p>Just note that <code>AutoScanModules</code> uses reflection and requires an accessible parameterless constructor on each module. It&rsquo;s convenient for development but worth considering the trade-offs in production builds where AOT compilation matters.</p>
+<h2 id="alternative-programmatic-prefixes">Alternative: Programmatic Prefixes <a href="#alternative-programmatic-prefixes" class="anchor">🔗</a></h2><p>The <code>[RoutePrefix]</code> attribute is declarative and clean, but Sisk also supports setting prefixes programmatically. Inside your <code>RouterModule</code> subclass, you can call <code>HasPrefix(&quot;/v1/users&quot;)</code> in the constructor, or set the <code>Prefix</code> property directly. This can be useful when the prefix depends on configuration or needs to be computed at runtime.</p>
+<p>The <code>Router</code> itself also has a <code>Prefix</code> property that affects all subsequently defined routes—handy for global prefixes like <code>/api</code>.</p>
+<think>
+The user wants me to rewrite just the "Trade-offs and Considerations" section from the original blog article about API versioning. They've pointed out that header-based versioning in Sisk doesn't require a RequestHandler - it can be done simply with a property in the base controller that reads the header directly.
+<p>I should update this section to reflect:</p>
+<ol>
+<li>The simplicity of header-based versioning in Sisk (just a property)</li>
+<li>Compare URL-based vs header-based approaches more fairly</li>
+<li>Keep the casual, reflective tone of the original article</li>
+<li>Mention the trade-offs of each approach</li>
+</ol>
+<p>Let me rewrite this section with the new context.
+</think></p>
+<think>
+The user wants me to add a practical example of header-based versioning to the "Trade-offs and Considerations" section. I should show how to use the `ApiVersion` property in a route to branch logic based on the version.
+</think>
+<h2 id="trade-offs-and-considerations">Trade-offs and Considerations <a href="#trade-offs-and-considerations" class="anchor">🔗</a></h2><p>Is URL-based versioning always the right choice? Honestly, it depends. Header-based versioning—using something like <code>Accept-Version</code> or <code>X-Api-Version</code>—is arguably more RESTful since the resource URL stays consistent regardless of version. And in Sisk, implementing it is surprisingly trivial:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#00f">public</span> <span style="color:#00f">abstract</span> <span style="color:#00f">class</span> <span style="color:#2b91af">ApiController</span> : RouterModule
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> HttpRequest Request =&gt; HttpContext.Current.Request;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> <span style="color:#2b91af">int</span> ApiVersion =&gt;
+</span></span><span style="display:flex;"><span>        Request.Headers.AsStringValueCollection()
+</span></span><span style="display:flex;"><span>            .GetItem(<span style="color:#a31515">&#34;Accept-Version&#34;</span>)
+</span></span><span style="display:flex;"><span>            .MaybeNullOrEmpty()?
+</span></span><span style="display:flex;"><span>            .GetInteger() ?? 1;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[RoutePrefix(&#34;/api/users&#34;)]
+</span></span><span style="display:flex;"><span><span style="color:#00f">public</span> <span style="color:#00f">sealed</span> <span style="color:#00f">class</span> <span style="color:#2b91af">UsersController</span> : ApiController
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    [RouteGet]
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> <span style="color:#00f">async</span> Task&lt;<span style="color:#2b91af">object</span>&gt; List()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">return</span> ApiVersion <span style="color:#00f">switch</span> {
+</span></span><span style="display:flex;"><span>            1 =&gt; <span style="color:#00f">await</span> UserServiceV1.ListUsers(),
+</span></span><span style="display:flex;"><span>            2 =&gt; <span style="color:#00f">await</span> UserServiceV2.ListUsers(),
+</span></span><span style="display:flex;"><span>            _ =&gt; <span style="color:#00f">new</span> HttpResponse(400)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>That&rsquo;s it. No middleware, no request handlers, just a property on your base controller. Clients specify the version with a header:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl http://localhost:5000/api/users                        <span style="color:#008000"># defaults to v1</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#a31515">&#34;Accept-Version: 2&#34;</span> http://localhost:5000/api/users <span style="color:#008000"># explicit v2</span>
+</span></span></code></pre></div><p>The trade-off? Header-based versioning is less discoverable. You can&rsquo;t just look at a URL and know which version you&rsquo;re hitting. API gateways and caching layers sometimes struggle with it too—they&rsquo;re often configured to cache based on URL, not headers. And let&rsquo;s be honest: telling a frontend dev &ldquo;just add this header to every request&rdquo; is one more thing that can go wrong.</p>
+<p>URL versioning (<code>/v1/users</code>, <code>/v2/users</code>) is explicit, obvious, and plays nicely with tooling. But it does mean maintaining separate controller classes—or at least separate route prefixes—which can feel heavy when V2 is 95% identical to V1.</p>
+<p>My take? Start with URL versioning via <code>[RoutePrefix]</code> for public APIs where discoverability matters. Use header-based versioning for internal services or when you want cleaner URLs and your consumers are sophisticated enough to handle it. Sisk makes both approaches straightforward, so pick the one that fits your context.</p>
+<p>One thing to watch regardless of approach: code duplication. When versions share most logic, extract that into services. Let your controllers be thin dispatchers that route to the right implementation. Your future self will thank you when V3 inevitably arrives.</p>
+<h2 id="wrapping-up">Wrapping Up <a href="#wrapping-up" class="anchor">🔗</a></h2><p>API versioning in Sisk isn&rsquo;t some elaborate framework feature—it&rsquo;s just a natural consequence of well-designed building blocks. <code>[RoutePrefix]</code> plus <code>RouterModule</code> plus clean inheritance gives you everything you need. Start with this pattern early, even if you think you&rsquo;ll never need it. Your future self will thank you when that &ldquo;small&rdquo; breaking change comes along and you can ship V2 with confidence.</p>
+<p>What&rsquo;s your preferred versioning strategy? Have you tried other approaches with Sisk that worked well? I&rsquo;d love to hear about it.</p>
+
+    </div>
+
+    
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        Project Principium
+    
+    </div>
+
+    
+      <div class="powerby">
+        
+Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a
+href='https://github.com/nodejh/hugo-theme-mini'>nodejh</a>
+
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>

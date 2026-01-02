@@ -2,45 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Today in Sisk</title>
-    <link>https://blog.sisk-framework.org/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Today in Sisk</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 14 Nov 2025 00:00:00 -0300</lastBuildDate>
-    <atom:link href="https://blog.sisk-framework.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Jan 2026 19:46:08 -0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Routing</title>
+      <link>http://localhost:1313/tags/routing/</link>
+      <pubDate>Fri, 02 Jan 2026 19:46:08 -0300</pubDate>
+      <guid>http://localhost:1313/tags/routing/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Cadente</title>
-      <link>https://blog.sisk-framework.org/tags/cadente/</link>
+      <link>http://localhost:1313/tags/cadente/</link>
       <pubDate>Fri, 14 Nov 2025 00:00:00 -0300</pubDate>
-      <guid>https://blog.sisk-framework.org/tags/cadente/</guid>
+      <guid>http://localhost:1313/tags/cadente/</guid>
       <description></description>
     </item>
     <item>
       <title>HTTPS</title>
-      <link>https://blog.sisk-framework.org/tags/https/</link>
+      <link>http://localhost:1313/tags/https/</link>
       <pubDate>Fri, 14 Nov 2025 00:00:00 -0300</pubDate>
-      <guid>https://blog.sisk-framework.org/tags/https/</guid>
+      <guid>http://localhost:1313/tags/https/</guid>
       <description></description>
     </item>
     <item>
       <title>Benchmark</title>
-      <link>https://blog.sisk-framework.org/tags/benchmark/</link>
+      <link>http://localhost:1313/tags/benchmark/</link>
       <pubDate>Tue, 18 Feb 2025 00:00:00 -0300</pubDate>
-      <guid>https://blog.sisk-framework.org/tags/benchmark/</guid>
+      <guid>http://localhost:1313/tags/benchmark/</guid>
       <description></description>
     </item>
     <item>
       <title>Releases</title>
-      <link>https://blog.sisk-framework.org/tags/releases/</link>
+      <link>http://localhost:1313/tags/releases/</link>
       <pubDate>Wed, 13 Nov 2024 14:17:04 -0300</pubDate>
-      <guid>https://blog.sisk-framework.org/tags/releases/</guid>
+      <guid>http://localhost:1313/tags/releases/</guid>
       <description></description>
     </item>
     <item>
       <title>Sisk</title>
-      <link>https://blog.sisk-framework.org/tags/sisk/</link>
+      <link>http://localhost:1313/tags/sisk/</link>
       <pubDate>Mon, 09 Sep 2024 22:34:40 -0300</pubDate>
-      <guid>https://blog.sisk-framework.org/tags/sisk/</guid>
+      <guid>http://localhost:1313/tags/sisk/</guid>
       <description></description>
     </item>
   </channel>

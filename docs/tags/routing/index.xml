@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Routing on Today in Sisk</title>
+    <link>http://localhost:1313/tags/routing/</link>
+    <description>Recent content in Routing on Today in Sisk</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 02 Jan 2026 19:46:08 -0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/routing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>API Versioning: Making the Most of RoutePrefix</title>
+      <link>http://localhost:1313/posts/2026-01-02-api-versioning/</link>
+      <pubDate>Fri, 02 Jan 2026 19:46:08 -0300</pubDate>
+      <guid>http://localhost:1313/posts/2026-01-02-api-versioning/</guid>
+      <description>&lt;p&gt;Have you ever shipped a breaking change to your API and watched the Slack notifications pile up from angry consumers? Yeah, me too. It&amp;rsquo;s not fun. That&amp;rsquo;s why API versioning is one of those things that seems optional until suddenly it&amp;rsquo;s absolutely critical—and at that point, retrofitting it becomes a nightmare.&lt;/p&gt;&#xA;&lt;p&gt;Today I want to walk through how Sisk makes API versioning surprisingly elegant using the &lt;code&gt;[RoutePrefix]&lt;/code&gt; attribute combined with &lt;code&gt;RouterModule&lt;/code&gt;. It&amp;rsquo;s one of those patterns that, once you see it, makes you wonder why you ever did it any other way.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
