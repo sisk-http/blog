@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dependency Injection on Today in Sisk</title>
+    <link>https://blog.sisk-framework.org/tags/dependency-injection/</link>
+    <description>Recent content in Dependency Injection on Today in Sisk</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 14 Jan 2026 17:35:08 -0300</lastBuildDate>
+    <atom:link href="https://blog.sisk-framework.org/tags/dependency-injection/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dependency Injection in Sisk: A Lightweight Approach That Just Works</title>
+      <link>https://blog.sisk-framework.org/posts/2026-01-14-dependency-injection/</link>
+      <pubDate>Wed, 14 Jan 2026 17:35:08 -0300</pubDate>
+      <guid>https://blog.sisk-framework.org/posts/2026-01-14-dependency-injection/</guid>
+      <description>&lt;p&gt;Have you ever found yourself drowning in the complexity of a full-blown DI container just to pass a database connection to your controllers? You know the feeling—hours configuring service lifetimes, wrestling with circular dependencies, and wondering if all this ceremony is really worth it. I&amp;rsquo;ve been there, and that&amp;rsquo;s exactly why Sisk&amp;rsquo;s approach to dependency injection feels like a breath of fresh air.&lt;/p&gt;&#xA;&lt;p&gt;Sisk doesn&amp;rsquo;t come with a built-in DI framework like ASP.NET&amp;rsquo;s Microsoft.Extensions.DependencyInjection. Instead, it gives you the building blocks to manage dependencies in a way that&amp;rsquo;s simple, explicit, and perfectly suited to lightweight applications. And once you get the hang of it, you might find yourself reaching for this pattern even in other projects.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

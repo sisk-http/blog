@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Dependency Injection in Sisk: A Lightweight Approach That Just Works | Today in Sisk</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="Have you ever found yourself drowning in the complexity of a full-blown DI container just to pass a database connection to your controllers? You know the feeling—hours configuring service lifetimes, wrestling with circular dependencies, and wondering if all this ceremony is really worth it. I&rsquo;ve been there, and that&rsquo;s exactly why Sisk&rsquo;s approach to dependency injection feels like a breath of fresh air.
+Sisk doesn&rsquo;t come with a built-in DI framework like ASP.NET&rsquo;s Microsoft.Extensions.DependencyInjection. Instead, it gives you the building blocks to manage dependencies in a way that&rsquo;s simple, explicit, and perfectly suited to lightweight applications. And once you get the hang of it, you might find yourself reaching for this pattern even in other projects.">
+<meta name="generator" content="Hugo 0.154.5">
+
+
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>Home</a>
+	
+	<a href="/posts">Archive</a>
+    <a target="_blank" href="https://docs.sisk-framework.org/">Get started</a>
+	<a href="/about">About</a>
+
+	
+
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+
+    <img class="post-img" src="/pimg/1726008973_3795_89813.png" alt="Dependency Injection in Sisk: A Lightweight Approach That Just Works" />
+
+    <h1 class="title">Dependency Injection in Sisk: A Lightweight Approach That Just Works</h1>
+    
+    <div class="tip">
+        <span>
+            By Mia, CypherPotato
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
+        <time datetime="2026-01-14 17:35:08 -0300 -03">Jan 14, 2026</time>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            807 words
+        </span>
+        <span class="split">
+            &bullet;
+        </span>
+        <span>
+            4 minute read
+        </span>
+        
+        <span class="split">
+            &bullet;
+        </span>
+        
+        <span>Dependency Injection</span>
+        
+        
+    </div>
+
+    
+
+    <div class="content">
+        <p>Have you ever found yourself drowning in the complexity of a full-blown DI container just to pass a database connection to your controllers? You know the feeling—hours configuring service lifetimes, wrestling with circular dependencies, and wondering if all this ceremony is really worth it. I&rsquo;ve been there, and that&rsquo;s exactly why Sisk&rsquo;s approach to dependency injection feels like a breath of fresh air.</p>
+<p>Sisk doesn&rsquo;t come with a built-in DI framework like ASP.NET&rsquo;s Microsoft.Extensions.DependencyInjection. Instead, it gives you the building blocks to manage dependencies in a way that&rsquo;s simple, explicit, and perfectly suited to lightweight applications. And once you get the hang of it, you might find yourself reaching for this pattern even in other projects.</p>
+<h2 id="the-requestbag-your-scoped-container">The RequestBag: Your Scoped Container <a href="#the-requestbag-your-scoped-container" class="anchor">🔗</a></h2><p>At the heart of Sisk&rsquo;s dependency management is the <code>HttpContext.RequestBag</code>—a typed dictionary that lives for the entire lifecycle of a request. Think of it as a scoped container that&rsquo;s automatically created when a request comes in and disposed when the response goes out.</p>
+<p>Here&rsquo;s the beauty of it: you can store anything in this bag—database connections, authenticated users, session tokens, repositories—and access them from anywhere in your request pipeline.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#008000">// In a request handler, set a value</span>
+</span></span><span style="display:flex;"><span>context.RequestBag.Set(authenticatedUser);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#008000">// Later, in your route action, retrieve it</span>
+</span></span><span style="display:flex;"><span><span style="color:#2b91af">var</span> user = request.Bag.Get&lt;User&gt;();
+</span></span></code></pre></div><p>The <code>TypedValueDictionary</code> behind the scenes uses type information as keys, so you get compile-time safety and no magic strings. It&rsquo;s the kind of simplicity that makes you wonder why we ever made this so complicated.</p>
+<h2 id="building-an-abstract-controller-base">Building an Abstract Controller Base <a href="#building-an-abstract-controller-base" class="anchor">🔗</a></h2><p>Here&rsquo;s where things get interesting. The <code>HttpContext.Current</code> static property that gives you access to the current request&rsquo;s context from anywhere in your code. This opens the door to building clean, reusable controller abstractions.</p>
+<p>Imagine you&rsquo;re building a REST API and every controller needs access to a database, some repositories, and the authenticated user. Instead of passing these through constructor injection or method parameters, you can define them as properties in a base class:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#00f">public</span> <span style="color:#00f">abstract</span> <span style="color:#00f">class</span> <span style="color:#2b91af">Controller</span> : RouterModule
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">protected</span> DbContext Database =&gt; 
+</span></span><span style="display:flex;"><span>        HttpContext.Current.RequestBag.GetOrAdd(() =&gt; DbContextPool.Main.CreateDbContext());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">protected</span> IUserRepository Users =&gt; 
+</span></span><span style="display:flex;"><span>        HttpContext.Current.RequestBag.GetOrAdd(() =&gt; <span style="color:#00f">new</span> UserRepository(Database));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">protected</span> User AuthenticatedUser =&gt; 
+</span></span><span style="display:flex;"><span>        HttpContext.Current.RequestBag.Get&lt;User&gt;();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">protected</span> HttpRequest Request =&gt; 
+</span></span><span style="display:flex;"><span>        HttpContext.Current.Request;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The <code>GetOrAdd</code> method is particularly clever—it creates the instance lazily on first access and reuses it for subsequent calls within the same request. Your <code>DbContext</code> gets instantiated once per request, shared across all repositories, and you didn&rsquo;t have to configure a single service registration.</p>
+<h2 id="request-handlers-as-middleware">Request Handlers as Middleware <a href="#request-handlers-as-middleware" class="anchor">🔗</a></h2><p>What about cross-cutting concerns like authentication? Sisk uses request handlers—essentially middleware that runs before or after your route actions. These are perfect for populating the <code>RequestBag</code> with dependencies your routes will need.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#00f">public</span> <span style="color:#00f">class</span> <span style="color:#2b91af">AuthenticateUser</span> : IRequestHandler
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> RequestHandlerExecutionMode ExecutionMode { <span style="color:#00f">get</span>; <span style="color:#00f">init</span>; } = 
+</span></span><span style="display:flex;"><span>        RequestHandlerExecutionMode.BeforeResponse;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> HttpResponse? Execute(HttpRequest request, HttpContext context)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        User? authenticatedUser = ValidateToken(request);
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">if</span> (!authenticatedUser.HasValue)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#00f">return</span> <span style="color:#00f">new</span> HttpResponse(401);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        context.RequestBag.Set(authenticatedUser);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">return</span> <span style="color:#00f">null</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Apply it to routes with an attribute, and every controller method that needs authentication just&hellip; has it. Here&rsquo;s how you&rsquo;d use it in practice:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>[RoutePrefix(&#34;/api/profile&#34;)]
+</span></span><span style="display:flex;"><span><span style="color:#00f">public</span> <span style="color:#00f">class</span> <span style="color:#2b91af">ProfileController</span> : Controller
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    [RouteGet]
+</span></span><span style="display:flex;"><span>    [RequestHandler&lt;AuthenticateUser&gt;]
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> HttpResponse GetProfile()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#008000">// AuthenticatedUser is already available from our base Controller class</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">return</span> <span style="color:#00f">new</span> HttpResponse(200)
+</span></span><span style="display:flex;"><span>            .WithContent(JsonContent.Create(<span style="color:#00f">new</span>
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                AuthenticatedUser.Id,
+</span></span><span style="display:flex;"><span>                AuthenticatedUser.Name,
+</span></span><span style="display:flex;"><span>                AuthenticatedUser.Email
+</span></span><span style="display:flex;"><span>            }));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    [RoutePut]
+</span></span><span style="display:flex;"><span>    [RequestHandler&lt;AuthenticateUser&gt;]
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">public</span> <span style="color:#00f">async</span> Task&lt;HttpResponse&gt; UpdateProfile()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#2b91af">var</span> updateData = <span style="color:#00f">await</span> Request.GetJsonAsync&lt;ProfileUpdateDto&gt;();
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        AuthenticatedUser.Name = updateData.Name;
+</span></span><span style="display:flex;"><span>        AuthenticatedUser.Bio = updateData.Bio;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">await</span> Users.UpdateAsync(AuthenticatedUser);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">return</span> <span style="color:#00f">new</span> HttpResponse(200)
+</span></span><span style="display:flex;"><span>            .WithContent(JsonContent.Create(<span style="color:#00f">new</span> { Message = <span style="color:#a31515">&#34;Profile updated!&#34;</span> }));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>No constructor injection ceremony, no scope resolution—the dependency is there when you need it, populated by the request handler and accessed through the base controller&rsquo;s property.</p>
+<h2 id="cleanup-disposing-resources-gracefully">Cleanup: Disposing Resources Gracefully <a href="#cleanup-disposing-resources-gracefully" class="anchor">🔗</a></h2><p>Resource cleanup is often the trickiest part of manual dependency management, but Sisk handles this elegantly. We have <code>HttpServerConfiguration.DisposeDisposableContextValues</code>, which is enabled by default. Any <code>IDisposable</code> objects in your <code>RequestBag</code> get automatically disposed when the HTTP session closes. No manual cleanup code, no memory leaks—it just works.</p>
+<p>For more granular control, you can use an <code>HttpServerHandler</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#00f">public</span> <span style="color:#00f">class</span> <span style="color:#2b91af">ObjectDisposerHandler</span> : HttpServerHandler
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">protected</span> <span style="color:#00f">override</span> <span style="color:#00f">void</span> OnHttpRequestClose(HttpServerExecutionResult result)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        result.Context.RequestBag.GetOrDefault&lt;DbContext&gt;()?.Dispose();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="the-sweet-spot-where-this-approach-shines">The Sweet Spot: Where This Approach Shines <a href="#the-sweet-spot-where-this-approach-shines" class="anchor">🔗</a></h2><p>This pattern is a perfect fit for microservices, REST APIs, IoT backends, embedded servers, or any project where you want to move fast without boilerplate. You get request-scoped dependencies, lazy initialization, automatic disposal, and zero configuration—all in a few lines of code.</p>
+<p>The explicit nature of <code>GetOrAdd</code> and <code>RequestBag.Set</code> means you always know where your dependencies come from and when they&rsquo;re created. No surprises, no debugging DI container configuration at 2 AM. And if your project grows and you eventually need a full-featured container, nothing stops you from integrating one—Sisk&rsquo;s flexibility means you&rsquo;re never locked into a single approach.</p>
+<p>So next time you&rsquo;re spinning up a new C# HTTP project, give Sisk&rsquo;s pragmatic dependency management a try. You might be surprised how far you can go with just a <code>RequestBag</code> and a well-designed base controller.</p>
+
+    </div>
+
+    
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        Project Principium
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-mini'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>
